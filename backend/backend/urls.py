@@ -21,4 +21,6 @@ from directory import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('directory/', views.index, name='index'),
+    path('directory/add_client', views.add_client, name='add_client'),
+    path('directory/view_clients', views.view_clients, name='view_clients'),
 ]
