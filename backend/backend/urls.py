@@ -14,13 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import RedirectView
+
+from rest_framework import routers
+
 from directory import views
+from backend.views import *
+
+# Auto Gens URLs
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'clients', ClientViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('directory/', views.index, name='index'),
     path('directory/add_client', views.add_client, name='add_client'),
     path('directory/view_clients', views.view_clients, name='view_clients'),
+
+    # Adds URLS from router
+    path('', include(router.urls)),
+
+    # Generic endpoint? TBH IDK What it does
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
