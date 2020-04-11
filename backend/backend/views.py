@@ -9,9 +9,10 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     Endpoint for adding and viewing Users/Admins/John
     """
+    
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class ClientViewSet(viewsets.ModelViewSet):
@@ -20,4 +21,4 @@ class ClientViewSet(viewsets.ModelViewSet):
     """
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
