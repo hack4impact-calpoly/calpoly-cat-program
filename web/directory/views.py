@@ -7,7 +7,10 @@ from .models import Client
 
 # Create your views here.
 def index(request):
-   return HttpResponse("Hello World!")
+    return render(request, 'client_list.html')
+
+def help(request):
+    return render(request, 'help.html')
 
 def add_client(request):
    if request.method == 'POST':

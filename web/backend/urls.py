@@ -29,12 +29,13 @@ router.register(r'clients', ClientViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('directory/', views.index, name='index'),
-    path('directory/add_client', views.add_client, name='add_client'),
-    path('directory/view_clients', views.view_clients, name='view_clients'),
+    path('', views.index, name='index'),
+    path('help/', views.help, name='help'),
+    path('add_client', views.add_client, name='Add Client'),
+    path('view_clients', views.view_clients, name='Client View'),
 
     # Adds URLS from router
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 
     # Generic endpoint? TBH IDK What it does
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))

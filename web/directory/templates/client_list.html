@@ -1,0 +1,47 @@
+{% extends 'base.html' %}{% load static %}
+{% block pageContent %}
+
+<header class="bg-primary text-white">
+    <div class="container text-center">
+        <h1>Welcome back John!</h1>
+        <p class="lead">We hope you're having a great day</p>
+    </div>
+</header>
+
+<section id="#search">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Client Search</h2>
+                <p class="lead">search function coming soon</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="#clients" class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Client List</h2>
+                <p class="lead">results: 1</p>
+                <table width="100%" border="1px solid black">
+                	<tr>
+                		<th width="60%">Name</th>
+                		<th>Location</th>
+                	</tr>
+                	<tr>
+                		<td>Ethan Z</td>
+                		<td>Dallas, TX</td>
+                	</tr>
+                	<tr>
+                		<td>Eric N</td>
+                		<td>Seattle, WA</td>
+                	</tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock pageContent %}
