@@ -1,0 +1,26 @@
+{% extends 'base.html' %}{% load static %}
+{% block pageContent %}
+
+<section id="#info">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>{{ client.first_name }}</h2>
+                <p class="lead">Birthday: {{ client.birthday }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="#clients" class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Notes</h2>
+                <textarea></textarea>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock pageContent %}

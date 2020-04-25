@@ -3,7 +3,7 @@
 
 <header class="bg-primary text-white">
     <div class="container text-center">
-        <h1>Welcome back John!</h1>
+        <h1>Welcome back CalPoly Cat Program!</h1>
         <p class="lead">We hope you're having a great day</p>
     </div>
 </header>
@@ -12,8 +12,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <h2>Client Search</h2>
-                <p class="lead">search function coming soon</p>
+                <h2>TODO</h2>
+                <p class="lead">todo coming soon</p>
             </div>
         </div>
     </div>
@@ -24,20 +24,22 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <h2>Client List</h2>
-                <p class="lead">results: 1</p>
+                <h5>Client Search</h5>
+                <p class="lead">search function coming soon</p>
+                <p class="lead">results: {{ clients.count }}</p>
                 <table width="100%" border="1px solid black">
                 	<tr>
                 		<th width="60%">Name</th>
                 		<th>Location</th>
+                        <th>Birthday</th>
                 	</tr>
-                	<tr>
-                		<td>Ethan Z</td>
-                		<td>Dallas, TX</td>
+                    {% for client in clients %}
+                    <tr class='clickable-row' data-href='/client?id={{ client.id }}'>
+                        <td>{{ client.first_name }}</td>
+                        <td>{{ client.location }}</td>
+                        <td>{{ client.birthday }}</td>
                 	</tr>
-                	<tr>
-                		<td>Eric N</td>
-                		<td>Seattle, WA</td>
-                	</tr>
+                    {% endfor %}
                 </table>
             </div>
         </div>
