@@ -30,6 +30,7 @@ router.register(r'clients', ClientViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('client/', views.client, name='client'),
     path('help/', views.help, name='help'),
     path('add_client', views.add_client, name='Add Client'),
     path('view_clients', views.view_clients, name='Client View'),

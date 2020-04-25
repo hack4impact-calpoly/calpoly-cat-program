@@ -7,7 +7,14 @@ from .models import Client
 
 # Create your views here.
 def index(request):
-    return render(request, 'client_list.html')
+    clients = Client.objects.all()
+    return render(request, 'client_list.html', {'clients': clients})
+
+def client(request):
+    client_id = request.GET.get('id')
+    print(client_id)
+    client = Client.objects.get(id=client_id)
+    return render(request, 'client.html', {'client': client})
 
 def help(request):
     return render(request, 'help.html')
@@ -31,5 +38,4 @@ def add_client(request):
 
 def view_clients(request):
    clients = Client.objects.all()
-   print(clients)
    return render(request, 'view_clients.html', {'clients': clients})
