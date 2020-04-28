@@ -1,0 +1,351 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0907DA92243D74E000845D96 /* dashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0907DA91243D74E000845D96 /* dashboardViewController.swift */; };
+		09422EAD23C547EC00318C03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09422EAC23C547EC00318C03 /* AppDelegate.swift */; };
+		09422EAF23C547EC00318C03 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09422EAE23C547EC00318C03 /* SceneDelegate.swift */; };
+		09422EB123C547EC00318C03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09422EB023C547EC00318C03 /* ViewController.swift */; };
+		09422EB423C547EC00318C03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09422EB223C547EC00318C03 /* Main.storyboard */; };
+		09422EB623C547EF00318C03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09422EB523C547EF00318C03 /* Assets.xcassets */; };
+		09422EB923C547EF00318C03 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 09422EB723C547EF00318C03 /* LaunchScreen.storyboard */; };
+		095813BD2446D1F10024DD5C /* addPatientViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095813BC2446D1F10024DD5C /* addPatientViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0907DA91243D74E000845D96 /* dashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dashboardViewController.swift; sourceTree = "<group>"; };
+		09422EA923C547EC00318C03 /* transitions mental health assoc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "transitions mental health assoc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		09422EAC23C547EC00318C03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		09422EAE23C547EC00318C03 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		09422EB023C547EC00318C03 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		09422EB323C547EC00318C03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		09422EB523C547EF00318C03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		09422EB823C547EF00318C03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		09422EBA23C547EF00318C03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		095813BC2446D1F10024DD5C /* addPatientViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addPatientViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		09422EA623C547EC00318C03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		09422EA023C547EC00318C03 = {
+			isa = PBXGroup;
+			children = (
+				09422EAB23C547EC00318C03 /* transitions mental health assoc */,
+				09422EAA23C547EC00318C03 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		09422EAA23C547EC00318C03 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				09422EA923C547EC00318C03 /* transitions mental health assoc.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		09422EAB23C547EC00318C03 /* transitions mental health assoc */ = {
+			isa = PBXGroup;
+			children = (
+				09422EAC23C547EC00318C03 /* AppDelegate.swift */,
+				09422EAE23C547EC00318C03 /* SceneDelegate.swift */,
+				09422EB023C547EC00318C03 /* ViewController.swift */,
+				09422EB223C547EC00318C03 /* Main.storyboard */,
+				09422EB523C547EF00318C03 /* Assets.xcassets */,
+				09422EB723C547EF00318C03 /* LaunchScreen.storyboard */,
+				09422EBA23C547EF00318C03 /* Info.plist */,
+				0907DA91243D74E000845D96 /* dashboardViewController.swift */,
+				095813BC2446D1F10024DD5C /* addPatientViewController.swift */,
+			);
+			path = "transitions mental health assoc";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		09422EA823C547EC00318C03 /* transitions mental health assoc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09422EBD23C547EF00318C03 /* Build configuration list for PBXNativeTarget "transitions mental health assoc" */;
+			buildPhases = (
+				09422EA523C547EC00318C03 /* Sources */,
+				09422EA623C547EC00318C03 /* Frameworks */,
+				09422EA723C547EC00318C03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "transitions mental health assoc";
+			productName = "transitions mental health assoc";
+			productReference = 09422EA923C547EC00318C03 /* transitions mental health assoc.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		09422EA123C547EC00318C03 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1120;
+				LastUpgradeCheck = 1120;
+				ORGANIZATIONNAME = Hack4Impact;
+				TargetAttributes = {
+					09422EA823C547EC00318C03 = {
+						CreatedOnToolsVersion = 11.2.1;
+					};
+				};
+			};
+			buildConfigurationList = 09422EA423C547EC00318C03 /* Build configuration list for PBXProject "transitions mental health assoc" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 09422EA023C547EC00318C03;
+			productRefGroup = 09422EAA23C547EC00318C03 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				09422EA823C547EC00318C03 /* transitions mental health assoc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		09422EA723C547EC00318C03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09422EB923C547EF00318C03 /* LaunchScreen.storyboard in Resources */,
+				09422EB623C547EF00318C03 /* Assets.xcassets in Resources */,
+				09422EB423C547EC00318C03 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		09422EA523C547EC00318C03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09422EB123C547EC00318C03 /* ViewController.swift in Sources */,
+				09422EAD23C547EC00318C03 /* AppDelegate.swift in Sources */,
+				095813BD2446D1F10024DD5C /* addPatientViewController.swift in Sources */,
+				09422EAF23C547EC00318C03 /* SceneDelegate.swift in Sources */,
+				0907DA92243D74E000845D96 /* dashboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		09422EB223C547EC00318C03 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09422EB323C547EC00318C03 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		09422EB723C547EF00318C03 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09422EB823C547EF00318C03 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		09422EBB23C547EF00318C03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		09422EBC23C547EF00318C03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		09422EBE23C547EF00318C03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4QJ8MA528V;
+				INFOPLIST_FILE = "transitions mental health assoc/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Hack4Impact.transitions-mental-health-assoc";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		09422EBF23C547EF00318C03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4QJ8MA528V;
+				INFOPLIST_FILE = "transitions mental health assoc/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Hack4Impact.transitions-mental-health-assoc";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		09422EA423C547EC00318C03 /* Build configuration list for PBXProject "transitions mental health assoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09422EBB23C547EF00318C03 /* Debug */,
+				09422EBC23C547EF00318C03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09422EBD23C547EF00318C03 /* Build configuration list for PBXNativeTarget "transitions mental health assoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09422EBE23C547EF00318C03 /* Debug */,
+				09422EBF23C547EF00318C03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 09422EA123C547EC00318C03 /* Project object */;
+}
