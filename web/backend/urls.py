@@ -25,15 +25,14 @@ from backend.views import *
 # Auto Gens URLs
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'clients', ClientViewSet)
+router.register(r'cats', CatViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('client/', views.client, name='client'),
+    path('cat/', views.cat_profile, name='Cat Profile'),
+    path('intake/', views.intake_form, name='Intake Form'),
     path('help/', views.help, name='help'),
-    path('add_client', views.add_client, name='Add Client'),
-    path('view_clients', views.view_clients, name='Client View'),
 
     # Adds URLS from router
     path('api/', include(router.urls)),

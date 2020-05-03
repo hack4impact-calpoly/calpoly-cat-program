@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'directory',
     'rest_framework',
+    'multiselectfield',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -84,10 +86,10 @@ DATABASES = {
     }
 }
 
+# uncomment in production
 # DATABASES['default'] = dj_database_url.config()
 
 # Rest Framework Authentication
-
 # removing required permissions and authentication for development
 REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': [],

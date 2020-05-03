@@ -1,18 +1,24 @@
 from django.contrib.auth.models import User, Group
-from directory.models import Client
-from rest_framework import serializers
+from rest_framework import fields, serializers 
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 
+from directory.models import Cat 
+from directory.models import PERSONALITY
 
-# Serializer for Client Model, allows for adding Clients to database
-class ClientSerializer(serializers.HyperlinkedModelSerializer):
+class CatSerializer(serializers.HyperlinkedModelSerializer):
+    personality = fields.MultipleChoiceField(choices=PERSONALITY)
     class Meta:
-        model = Client
-        fields = ['first_name', 'last_name', 'birthday', 'location']
+        model = Cat
+        fields = [
+            'name', 'gender', 'age', 'description', 'breed', 'itype', 'status',
+            'arrival_date', 'arrival_details', 'medical_history', 'vaccinations',
+            'is_microchipped', 'flea_control_date', 'deworming_date', 'fiv_felv_date', 
+            'special_needs', 'personality', 'more_personality', 'comments', 
+            'personal_exp'
+        ]
 
-
-# Serializer for adding User to Database this will be used for admins/john. We need to use User model for authentication
+# Serializer for adding User to Database this will be used for admins. We need to use User model for authentication
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
