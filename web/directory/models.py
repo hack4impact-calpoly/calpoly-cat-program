@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import date
 from multiselectfield import MultiSelectField
+import os
 
 # keep outside of Cat class for easy import
 PERSONALITY = (
@@ -70,3 +71,12 @@ class Cat(models.Model):
     comments = models.TextField(null=True, blank=True)
     personal_exp = models.TextField(null=True, blank=True)
 
+def upload_path(instance, filename):
+    return 'documents/cat_{0}/{1}'.format(instance.cat_id, filename)
+
+class Document(models.Model):
+    cat_id = models.IntegerField()  # foreign keys are too difficult with custom path names
+    document = models.FileField(upload_to=upload_path)
+    name = models.TextField()
+    description = models.CharField(max_length=60, blank=True) 
+    uploaded_at = models.DateTimeField(auto_now_add=True)
