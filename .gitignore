@@ -1,7 +1,10 @@
-
 # Django
 
 *.pyc
 __pychache__/
+.DS_Store
 db.sqlite3
 
+*.swp
+web/directory/migrations/*
+web/media/

@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from rest_framework import routers
 
@@ -31,6 +33,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('cat/', views.cat_profile, name='Cat Profile'),
+    path('document_upload/', views.document_upload),
+    path('delete_document/', views.delete_document),
     path('intake/', views.intake_form, name='Intake Form'),
     path('help/', views.help, name='help'),
 
@@ -39,4 +43,4 @@ urlpatterns = [
 
     # Generic endpoint? TBH IDK What it does
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

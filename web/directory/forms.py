@@ -1,12 +1,7 @@
 from django import forms
 from directory.models import Cat
+from directory.models import Document 
 
-class ClientForm(forms.Form):
-    first_name = forms.CharField(label='First Name', max_length=50)
-    last_name = forms.CharField(label='Last Name', max_length=50)
-    birthday = forms.DateField(label='DOB')
-    location = forms.CharField(label='Location', max_length=50)
-    
 class IntakeForm(forms.ModelForm):
     class Meta:
         model = Cat
@@ -17,3 +12,8 @@ class IntakeForm(forms.ModelForm):
             'special_needs', 'personality', 'more_personality', 'comments', 
             'personal_exp'
         ]
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['document', 'description']
