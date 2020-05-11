@@ -52,10 +52,10 @@ class Cat(models.Model):
 
     STATUSES = [
         ('adopt', 'For adoption'),
-        ('temp', 'Temporary'),
-        ('perm', 'Permanent'),
+        ('temporary', 'Temporary'),
+        ('permanent', 'Permanent'),
     ]
-    status = models.CharField(max_length=6, choices=STATUSES)
+    status = models.CharField(max_length=10, choices=STATUSES)
     arrival_date = models.DateField(default=date.today)
     arrival_details = models.TextField()
     medical_history = models.TextField()
