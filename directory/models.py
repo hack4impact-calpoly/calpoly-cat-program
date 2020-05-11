@@ -21,7 +21,7 @@ PERSONALITY = (
     (15, 'Swats when over stimulated'), 
     (16, 'Needs quiet home'), 
     (17, 'Likes to be held/picked up'), 
-    (18, 'Doesn\'t like tot be held/picked up'), 
+    (18, 'Doesn\'t like to be held/picked up'), 
     (19, 'Comfortable with other cats'), 
     (20, 'Not comfortable with other cats'), 
     (21, 'Comfortable with dogs'), 
