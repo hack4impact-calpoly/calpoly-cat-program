@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import date
 from multiselectfield import MultiSelectField
-import os
 
 # keep outside of Cat class for easy import
 PERSONALITY = (

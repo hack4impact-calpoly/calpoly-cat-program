@@ -6,5 +6,5 @@ __pychache__/
 db.sqlite3
 
 *.swp
-web/directory/migrations/*
-web/media/
+directory/migrations/*
+media/
