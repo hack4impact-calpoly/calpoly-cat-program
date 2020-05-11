@@ -51,10 +51,9 @@ def intake_form(request):
 
             cat.save()
             return HttpResponseRedirect('/cat/?id=' + str(cat.id))
-        return redirect('/') # return to index if not valid
     else:
         form = IntakeForm()
-        return render(request, 'intake.html', {'form': form})
+    return render(request, 'intake.html', {'form': form})
 
 def document_upload(request):
     cat_id = request.POST.get('cat')
