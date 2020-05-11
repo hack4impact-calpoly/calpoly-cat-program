@@ -50,7 +50,7 @@ def intake_form(request):
                     personal_exp = data.get('personal_exp'))
 
             cat.save()
-        return HttpResponseRedirect('/cat/?id=' + str(cat.id))
+            return HttpResponseRedirect('/cat/?id=' + str(cat.id))
     else:
         form = IntakeForm()
         return render(request, 'intake.html', {'form': form})
