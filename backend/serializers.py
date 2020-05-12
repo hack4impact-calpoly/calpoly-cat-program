@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password
 
 from directory.models import Cat 
 from directory.models import PERSONALITY
+from directory.models import Document 
 
 class CatSerializer(serializers.HyperlinkedModelSerializer):
     personality = fields.MultipleChoiceField(choices=PERSONALITY)
@@ -17,6 +18,11 @@ class CatSerializer(serializers.HyperlinkedModelSerializer):
             'special_needs', 'personality', 'more_personality', 'comments', 
             'personal_exp'
         ]
+
+class DocumentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Document
+        fields = ['document', 'name', 'description', 'uploaded_at']
 
 # Serializer for adding User to Database this will be used for admins. We need to use User model for authentication
 class UserSerializer(serializers.HyperlinkedModelSerializer):
