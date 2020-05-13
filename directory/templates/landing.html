@@ -25,25 +25,66 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <h2>Cat List</h2>
-                <p class="lead">search function coming soon</p>
-                <p class="lead">results: {{ cats.count }}</p>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="search" placeholder="search">
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <p class="lead">results: <span id="result_count">{{ cats.count }}</span></p>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="layout" id="list" checked> List 
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="layout" id="grid"> Grid 
+                        </label>
+                    </div>
+                </div>
 
-                <div class="d-flex">
+                <div class="d-flex" id="cat_grid" style="display:none !important"> 
                     <div class="col-lg-6">
                         {% for cat in cats %}
-                        {% if forloop.counter0|sub:1 == cats.count|intdiv:2 %}
+                        {% if forloop.counter0 == cats.count|intdiv:2 %}
                     </div>
                     <div class="col-lg-6">
                         {% endif %}
                         <a class="card text-dark mb-3 text-decoration-none" style="width:18rem" href="cat/?id={{ cat.id }}">
                             <img class="card-img-top" src="..." alt="[cat picture]">
                             <div class="card-body">
-                                <h5 class="card-title">{{ cat.name }}</h5>
-                                <p class="card-text"></p>
+                                <h5 class="card-title"><span class="name">{{ cat.name }}</span> ({{ cat.age }}/{{ cat.gender }})</h5>
+                                <p class="card-text">
+                                    {% if cat.status == "adopt" %}
+                                    for adoption
+                                    {% elif cat.status == "temp" %}
+                                    temporary
+                                    {% elif cat.status == "perm" %}
+                                    permanant
+                                    {% endif %}
+                                </p>
                             </div>
                         </a>
                         {% endfor %}
                     </div>
+                </div>
+                <div class="col-lg-12 auto-mx" id="cat_list" style="">
+                    <ul class="list-group list-group-flush col-lg-12">
+                    {% for cat in cats %}
+                    <li class="list-group-item d-flex justify-content-between">
+                        <a class="text-dark text-decoration-none" href="cat/?id={{ cat.id }}">
+                            <span class="name">{{ cat.name }}</span>
+                            ({{ cat.age }}/{{ cat.gender }})
+                        </a>
+                        <div>
+                            {% if cat.status == "adopt" %}
+                            for adoption
+                            {% elif cat.status == "temp" %}
+                            temporary
+                            {% elif cat.status == "perm" %}
+                            permanant
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
