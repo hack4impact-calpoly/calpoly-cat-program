@@ -20,16 +20,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework import routers
+from rest_framework.authtoken.views import obtain_auth_token
 
 from directory import views
 from backend.views import *
 
-# Auto Gens URLs
+# Auto Gens API URLs
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'cats', CatViewSet)
-
-router.register(r'files', DocumentViewSet, basename='cat')
+router.register(r'files', DocumentViewSet, basename='files')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,9 +40,6 @@ urlpatterns = [
     path('intake/', views.intake_form, name='Intake Form'),
     path('help/', views.help, name='help'),
 
-    # Adds URLS from router
     path('api/', include(router.urls)),
-
-    # Generic endpoint? TBH IDK What it does
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% load static %}
+{% block pageContent %}
+
+<section id="#info">
+    <div class="container">
+        <div class="row">
+         edit profile
+            <div class="col-lg-8 mx-auto">
+                <h2>{{ cat.name }}</h2>
+                <p class="lead">About me: {{ cat.personality }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                {% include 'documents.html' %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock pageContent %}
