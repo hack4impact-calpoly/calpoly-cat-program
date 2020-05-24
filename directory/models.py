@@ -52,8 +52,8 @@ class Cat(models.Model):
 
     STATUSES = [
         ('adopt', 'For adoption'),
-        ('temporary', 'Temporary'),
-        ('permanent', 'Permanent'),
+        ('temp', 'Temporary'),
+        ('perm', 'Permanent'),
     ]
     status = models.CharField(max_length=10, choices=STATUSES)
     arrival_date = models.DateField(default=date.today)

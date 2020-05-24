@@ -9,13 +9,9 @@ from directory.models import Cat
 from directory.models import Document 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    Endpoint for adding and viewing Users/Admins/John
-    """
-    
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
 class CatViewSet(viewsets.ModelViewSet):
     queryset = Cat.objects.all()

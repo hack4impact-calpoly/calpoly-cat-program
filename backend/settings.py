@@ -39,8 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # my apps
+    'backend',
     'directory',
+
+    # third-party apps
     'rest_framework',
+    'rest_framework.authtoken',
     'multiselectfield',
     'mathfilters',
 ]
@@ -92,7 +98,9 @@ DATABASES = {
 # Rest Framework Authentication
 # removing required permissions and authentication for development
 REST_FRAMEWORK = {
-   'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }
 
 # Password validation
