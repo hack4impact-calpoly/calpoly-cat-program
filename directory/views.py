@@ -15,6 +15,8 @@ def index(request):
 def cat_profile(request):
     cat_id = request.GET.get('id')
     cat = Cat.objects.get(id=cat_id)
+    if request.GET.get('action') == "edit":
+        return render(request, 'edit_profile.html', {'cat': cat})
     document_form = DocumentForm()
     documents = Document.objects.filter(cat_id=cat_id)
     return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents})
