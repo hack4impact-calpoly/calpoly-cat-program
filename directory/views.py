@@ -57,6 +57,40 @@ def intake_form(request):
         form = IntakeForm()
     return render(request, 'intake.html', {'form': form})
 
+def update_cat(request):
+    if request.method == 'POST':
+        cat_id = request.POST.get('id')
+        form = IntakeForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            cat = Cat(
+                    id = cat_id, # should UPDATE with specified key
+                    name = data.get('name'),
+                    gender = data.get('gender'),
+                    age = data.get('age'),
+                    description = data.get('description'),
+                    breed = data.get('breed'),
+                    itype = data.get('itype'),
+                    status = data.get('status'),
+                    arrival_date = data.get('arrival_date'),
+                    arrival_details = data.get('arrival_details'),
+                    medical_history = data.get('medical_history'),
+                    vaccinations = data.get('vaccinations'),
+                    is_microchipped = data.get('is_microchipped'),
+                    flea_control_date = data.get('flea_control_date'),
+                    deworming_date = data.get('deworming_date'),
+                    fiv_felv_date = data.get('fiv_felv_date'),
+                    special_needs = data.get('special_needs'),
+                    personality = data.get('personality'),
+                    more_personality = data.get('more_personality'),
+                    comments = data.get('comments'),
+                    personal_exp = data.get('personal_exp'))
+
+            cat.save()
+            return HttpResponseRedirect('/cat/?id=' + str(cat.id))
+    else:
+        return redirect('/')
+
 def document_upload(request):
     cat_id = request.POST.get('cat')
     cat = Cat.objects.get(id=cat_id)

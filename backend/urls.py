@@ -37,6 +37,7 @@ urlpatterns = [
     path('cat/', views.cat_profile, name='Cat Profile'),
     path('document_upload/', views.document_upload),
     path('delete_document/', views.delete_document),
+    path('update_cat/', views.update_cat),
     path('intake/', views.intake_form, name='Intake Form'),
     path('help/', views.help, name='help'),
 
