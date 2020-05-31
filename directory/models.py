@@ -79,3 +79,18 @@ class Document(models.Model):
     name = models.TextField()
     description = models.CharField(max_length=60, blank=True) 
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class Event(models.Model):
+    cat_id = models.IntegerField()
+    title = models.CharField(max_length=60)
+
+    EVENT_TYPES = [
+        ('vet', 'Vet Appointment'),
+        ('adoption', 'Adoption Appointment'),
+        ('foster', 'Foster Appointment'),
+    ]
+
+    event_type = models.CharField(max_length=9, choices=EVENT_TYPES)
+    datetime = models.DateTimeField()
+    notes = models.TextField(null=True, blank=True)
+

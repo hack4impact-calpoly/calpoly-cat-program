@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from backend.serializers import *
 from directory.models import Cat 
 from directory.models import Document 
+from directory.models import Event
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
@@ -23,6 +24,16 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Document.objects.all()
+        cat_id = self.request.query_params.get('cat_id', None)
+        if cat_id is not None:
+            queryset = queryset.filter(cat_id=cat_id)
+        return queryset
+        
+class EventViewSet(viewsets.ModelViewSet):
+    serializer_class = EventSerializer 
+
+    def get_queryset(self):
+        queryset = Event.objects.all()
         cat_id = self.request.query_params.get('cat_id', None)
         if cat_id is not None:
             queryset = queryset.filter(cat_id=cat_id)
