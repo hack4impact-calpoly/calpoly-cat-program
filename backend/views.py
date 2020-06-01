@@ -29,6 +29,16 @@ class DocumentViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(cat_id=cat_id)
         return queryset
         
+class PhotoViewSet(viewsets.ModelViewSet):
+    serializer_class = PhotoSerializer 
+
+    def get_queryset(self):
+        queryset = Photo.objects.all()
+        cat_id = self.request.query_params.get('cat_id', None)
+        if cat_id is not None:
+            queryset = queryset.filter(cat_id=cat_id)
+        return queryset
+        
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer 
 

@@ -2,15 +2,26 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect 
+from django.db.models import OuterRef, Subquery
+import datetime
 
 from .forms import IntakeForm
 from .forms import DocumentForm 
 from .models import Cat
 from .models import Document 
+from .models import Photo
+from .models import Event
 
 def index(request):
     cats = Cat.objects.all()
-    return render(request, 'landing.html', {'cats': cats})
+
+    current_time = datetime.datetime.now()
+    start_date = current_time - datetime.timedelta(hours=12)
+    end_date = current_time + datetime.timedelta(days=5)
+    names = Cat.objects.filter(id=OuterRef('cat_id'))
+    events = Event.objects.filter(datetime__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
+
+    return render(request, 'landing.html', {'cats': cats, 'events': events})
 
 def cat_profile(request):
     cat_id = request.GET.get('id')
@@ -19,7 +30,8 @@ def cat_profile(request):
         return render(request, 'edit_profile.html', {'cat': cat})
     document_form = DocumentForm()
     documents = Document.objects.filter(cat_id=cat_id)
-    return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents})
+    photos = Photo.objects.filter(cat_id=cat_id)
+    return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents, 'photos': photos})
 
 def help(request):
     return render(request, 'help.html')
@@ -106,10 +118,22 @@ def document_upload(request):
             )
 
             document.save()
-        return redirect('/cat/?id=' + str(cat_id))
-    
-    document_form = DocumentForm()
-    return render(request, 'cat_profile.html', {'cat': cat, 'document': document_form})
+    return redirect('/cat/?id=' + str(cat_id))
+
+def photo_upload(request):
+    cat_id = request.POST.get('cat')
+    if request.method == 'POST':
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            photo = Photo(
+                    cat_id = cat_id,
+                    photo = data.get('photo'),
+                    name = request.FILES['photo'].name,
+            )
+
+            photo.save()
+    return redirect('/cat/?id=' + str(cat_id))
 
 # TODO add confirmation before delete
 # TODO delete the actual file from the system

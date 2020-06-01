@@ -30,6 +30,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'cats', CatViewSet)
 router.register(r'files', DocumentViewSet, basename='files')
+router.register(r'photos', PhotoViewSet, basename='photos')
 router.register(r'events', EventViewSet, basename='events')
 
 urlpatterns = [
