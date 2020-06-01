@@ -6,6 +6,8 @@ from django.contrib.auth.hashers import make_password
 from directory.models import Cat 
 from directory.models import PERSONALITY
 from directory.models import Document 
+from directory.models import Photo
+from directory.models import Event
 
 class CatSerializer(serializers.HyperlinkedModelSerializer):
     personality = fields.MultipleChoiceField(choices=PERSONALITY)
@@ -23,6 +25,16 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Document
         fields = ['document', 'name', 'description', 'uploaded_at']
+        
+class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Photo 
+        fields = ['cat_id', 'photo', 'name', 'uploaded_at']
+        
+class EventSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Event 
+        fields = ['cat_id', 'event_type', 'title', 'datetime', 'notes']
 
 # Serializer for adding User to Database this will be used for admins. We need to use User model for authentication
 class UserSerializer(serializers.HyperlinkedModelSerializer):
