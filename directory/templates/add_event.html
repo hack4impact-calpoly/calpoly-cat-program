@@ -1,0 +1,42 @@
+{% extends 'single_form.html' %}{% load static %}
+{% block formContent %}
+
+<h2>Add Event</h2>
+<form action="/event/" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_title">Event Name</label>
+        <input type="text" class="form-control" name="title" id="id_title" maxlength="60" required>
+    </div>
+    <div class="form-group">
+        <label for="id_type">Event Type</label>
+        <select class="form-control" name="event_type" id="id_type" required>
+            <option value="" selected disabled hidden>Select Event Type</option>
+            <option value="vet">Vet Appointment</option>
+            <option value="adoption">Adoption Appointment</option>
+            <option value="foster">Foster Appointment</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_cat">Select Cat</label>
+        <select class="form-control" name="cat_id" id="cat_id" required>
+            <option value="" selected disabled hidden>Select Cat</option>
+            {% for cat in cats %}
+            <option value="{{ cat.id }}">{{cat.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_datetime">Appointment Date</label>
+        <div class="d-flex">
+            <input type="date" class="form-control mr-3" name="date" id="id_datetime" required>
+            <input type="time" class="form-control ml-3" name="time" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="id_notes">Notes</label>
+        <textarea class="form-control" id="id_notes" name="notes" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Event</button>
+</form>
+{% endblock %}
