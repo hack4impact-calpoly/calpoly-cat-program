@@ -3,14 +3,12 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect 
 from django.db.models import OuterRef, Subquery
+from django.contrib.auth import authenticate, login, logout
 import datetime
+import calendar
 
-from .forms import IntakeForm
-from .forms import DocumentForm 
-from .models import Cat
-from .models import Document 
-from .models import Photo
-from .models import Event
+from .forms import IntakeForm, DocumentForm, EventForm
+from .models import Cat, Document, Photo, Event
 
 def index(request):
     cats = Cat.objects.all()
@@ -19,7 +17,7 @@ def index(request):
     start_date = current_time - datetime.timedelta(hours=12)
     end_date = current_time + datetime.timedelta(days=5)
     names = Cat.objects.filter(id=OuterRef('cat_id'))
-    events = Event.objects.filter(datetime__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
+    events = Event.objects.filter(date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
 
     return render(request, 'landing.html', {'cats': cats, 'events': events})
 
@@ -35,6 +33,73 @@ def cat_profile(request):
 
 def help(request):
     return render(request, 'help.html')
+
+def events(request):
+    now = datetime.datetime.now()
+    month = now.month
+    year = now.year
+
+    if request.GET.get('m'):
+        month = int(request.GET.get('m'))
+        year = int(request.GET.get('y'))
+
+    start = datetime.date(year, month, 1)
+    end = start + datetime.timedelta(days=calendar.monthrange(year, month)[1])
+
+    dates = []
+    for i in range(-2, 3):
+        if month+i < 1:
+            dates.append(tuple((month+i+12, year-1)))
+        elif month+i > 12:
+            dates.append(tuple((month+i-12, year+1)))
+        else:
+            dates.append(tuple((month+i, year)))
+
+    names = Cat.objects.filter(id=OuterRef('cat_id'))
+    events = Event.objects.filter(date__range=(start, end)).annotate(name=Subquery(names.values('name'))).order_by('date', 'time')
+    
+    return render(request, 'events.html', {'events': events, 'dates': dates, 'names': names})
+
+def single_event(request):
+    if request.method == 'POST' and request.POST.get('event_id') is None:
+        form = EventForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            event = Event(
+                    title = data.get('title'),
+                    event_type = data.get('event_type'),
+                    cat_id = data.get('cat_id'),
+                    date = data.get('date'),
+                    time = data.get('time'),
+                    notes = data.get('notes'))
+            event.save()
+            return redirect('/event/?id=' + str(event.id))
+    if request.method == 'POST' and request.POST.get('event_id') is not None:
+        form = EventForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            Event.objects.filter(id=request.POST.get('event_id')).update(
+                    title = data.get('title'),
+                    event_type = data.get('event_type'),
+                    cat_id = data.get('cat_id'),
+                    date = data.get('date'),
+                    time = data.get('time'),
+                    notes = data.get('notes'))
+            return redirect('/event/?id=' + str(request.POST.get('event_id')))
+    if request.GET.get('action') == 'add':
+        form = EventForm()
+        cats = Cat.objects.all()
+        return render(request, 'add_event.html', {'form': form, 'cats': cats})
+    if request.GET.get('id') is not None:
+        e_id = request.GET.get('id')
+        event = Event.objects.get(id=e_id)
+        cat = Cat.objects.get(id=event.cat_id)
+        if request.GET.get('action') == 'edit':
+            cats = Cat.objects.all()
+            return render(request, 'edit_event.html', {'event': event, 'cat': cat, 'cats': cats})
+        return render(request, 'event.html', {'event': event, 'cat': cat})
+
+    return redirect('/events/')
 
 def intake_form(request):
     if request.method == 'POST':
@@ -144,3 +209,8 @@ def delete_document(request):
     doc.delete()
     return redirect('/cat/?id=' + str(cat_id))
     
+def delete_event(request):
+    event_id = request.GET.get('id')
+    event = Event.objects.get(id=event_id)
+    event.delete()
+    return redirect('/events/')

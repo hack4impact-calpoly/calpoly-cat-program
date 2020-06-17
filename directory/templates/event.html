@@ -1,0 +1,28 @@
+{% extends 'base.html' %}{% load static %}
+{% block pageContent %}
+
+<section id="#event">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>{{ cat.name }} | {{ event.title }}</h2>
+                <h5>{{event.date|date:'M j'}} - {{event.time|date:'h:ia'}}</h5>
+                {% if event.event_type == "vet" %}
+                <p>Vet Appointment</p>
+                {% elif event.event_type == "adopt" %}
+                <p>Adoption Appointment</p>
+                {% elif event.event_type == "foster" %}
+                <p>Foster Appointment</p>
+                {% endif %}
+                <h3>Notes</h3>
+                {{event.notes}}
+                <div class="d-flex justify-content-end mt-2">
+                    <a class="mr-3 mt-1" href="/delete_event?id={{ event.id }}"><img src="{% static "imgs/trash.svg" %}"></a>
+                    <a class="btn btn-primary" href="/event/?id={{event.id}}&action=edit">Edit Event</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

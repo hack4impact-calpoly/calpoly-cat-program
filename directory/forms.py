@@ -1,6 +1,7 @@
 from django import forms
 from directory.models import Cat
-from directory.models import Document 
+from directory.models import Document
+from directory.models import Event 
 
 class IntakeForm(forms.ModelForm):
     class Meta:
@@ -17,3 +18,8 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
         fields = ['document', 'description']
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['cat_id', 'title', 'event_type', 'date', 'time', 'notes']

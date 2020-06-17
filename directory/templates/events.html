@@ -1,0 +1,41 @@
+{% extends 'base.html' %}{% load static %}
+{% block pageContent %}
+
+<section id="#events">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2>Events</h2>
+                <ul class="pagination center d-flex justify-content-center">
+                {% for combo in dates %}
+                    {% if forloop.counter == 3 %}
+                    <li class="page-item active">
+                        <span class="page-link">{{combo.0}}-{{combo.1}}</a></li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="/events/?y={{combo.1}}&m={{combo.0}}">{{combo.0}}-{{combo.1}}</a></li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+                <ul class="list-group">
+                {% for event in events %}
+                    <li class="list-group-item" data-toggle="collapse" data-target="#e{{event.id}}">
+                        <div class="d-flex justify-content-between">
+                            <a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
+                                {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a>
+                            <span class="badge badge-primary">{{ event.event_type }}</span>
+                        </div>
+                        <div id="e{{event.id}}" class="collapse mt-2 ml-4">{{ event.notes }}</div>
+                    </li>
+                {% endfor %}
+                </ul>
+
+                <div class="d-flex justify-content-end mt-2">
+                    <a class="btn btn-primary" href="/event/?action=add">Add Event</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
