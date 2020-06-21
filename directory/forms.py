@@ -1,6 +1,7 @@
 from django import forms
 from directory.models import Cat
 from directory.models import Document 
+from directory.models import Photo
 
 class IntakeForm(forms.ModelForm):
     class Meta:
@@ -29,3 +30,8 @@ class DocumentForm(forms.ModelForm):
     class Meta:
         model = Document
         fields = ['document', 'description']
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['photo']

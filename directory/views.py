@@ -8,6 +8,7 @@ import datetime
 from .forms import IntakeForm
 from .forms import DocumentForm 
 from .forms import EditForm
+from .forms import PhotoForm
 from .models import Cat
 from .models import Document 
 from .models import Photo
@@ -130,9 +131,8 @@ def photo_upload(request):
             photo = Photo(
                     cat_id = cat_id,
                     photo = data.get('photo'),
-                    name = request.FILES['photo'].name,
+                    name = request.FILES['photo'].name, #name called by html
             )
-
             photo.save()
     return redirect('/cat/?id=' + str(cat_id))
 
