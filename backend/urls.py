@@ -42,7 +42,7 @@ urlpatterns = [
     path('update_cat/', views.update_cat),
     path('intake/', views.intake_form, name='Intake Form'),
     path('help/', views.help, name='help'),
-
     path('api/', include(router.urls)),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('edit_profile/', views.edit_cat),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

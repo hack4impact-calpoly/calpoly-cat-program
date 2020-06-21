@@ -7,6 +7,7 @@ import datetime
 
 from .forms import IntakeForm
 from .forms import DocumentForm 
+from .forms import EditForm
 from .models import Cat
 from .models import Document 
 from .models import Photo
@@ -144,3 +145,35 @@ def delete_document(request):
     doc.delete()
     return redirect('/cat/?id=' + str(cat_id))
     
+def edit_cat(request):
+    cat_id = request.GET.get('id')
+    cat = Cat.objects.filter(id=cat_id)
+    print(cat)
+    form = EditForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            data = form.cleaned_data
+            cat = Cat(
+                    name = data.get('name'),
+                    gender = data.get('gender'),
+                    age = data.get('age'),
+                    description = data.get('description'),
+                    breed = data.get('breed'),
+                    itype = data.get('itype'),
+                    status = data.get('status'),
+                    arrival_date = data.get('arrival_date'),
+                    arrival_details = data.get('arrival_details'),
+                    medical_history = data.get('medical_history'),
+                    vaccinations = data.get('vaccinations'),
+                    is_microchipped = data.get('is_microchipped'),
+                    flea_control_date = data.get('flea_control_date'),
+                    deworming_date = data.get('deworming_date'),
+                    fiv_felv_date = data.get('fiv_felv_date'),
+                    special_needs = data.get('special_needs'),
+                    personality = data.get('personality'),
+                    more_personality = data.get('more_personality'),
+                    comments = data.get('comments'),
+                    personal_exp = data.get('personal_exp'))
+            return HttpResponseRedirect('/cat/?id=' + str(cat_id))
+    else:
+        return render(request, 'edit_profile.html', {'form': form, 'cat': cat})

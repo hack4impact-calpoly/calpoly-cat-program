@@ -7,6 +7,25 @@
             <div class="col-lg-8 mx-auto">
                 <h2>{{ cat.name }}</h2>
                 <p class="lead">About me: {{ cat.personality }}</p>
+                <p class="lead">Gender: {{ cat.gender }}</p>
+                <p class="lead">Age: {{ cat.age }}</p>
+                <p class="lead">Description: {{ cat.description }}</p>
+                <p class="lead">Breed: {{ cat.breed }}</p>
+                <p class="lead">Type: {{ cat.itype }}</p>
+                <p class="lead">Status: {{ cat.status }}</p>
+                <p class="lead">Arrival Date: {{ cat.arrival_date }}</p>
+                <p class="lead">Arrival Details: {{ cat.arrival_details }}</p>
+                <p class="lead">Medical History: {{ cat.medical_history }}</p>
+                <p class="lead">Vaccinations: {{ cat.vaccinations }}</p>
+                <p class="lead">Is Microchipped: {{ cat.is_microchipped }}</p>
+                <p class="lead">Flea Control done on: {{ cat.flea_control_date }}</p>
+                <p class="lead">Deworming done on: {{ cat.deworming_date }}</p>
+                <p class="lead">FIV-FELV, date tested: {{ cat.fiv_felv_date }}</p>
+                <p class="lead">Special Needs: {{ cat.special_needs }}</p>
+                <p class="lead">A bit more about me: {{ cat.more_personality }}</p>
+                <p class="lead">Comments: {{ cat.comments }}</p>
+                <p class="lead">Personal experiences: {{ cat.personal_exp }}</p>
+                <a href="/edit_profile/?id={{ cat.id }}"><button type="button" class="btn btn-primary btn-sm">Edit Cat</button></a><br><br>
             </div>
         </div>
         <div class="row">
