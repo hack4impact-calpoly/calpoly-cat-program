@@ -147,33 +147,32 @@ def delete_document(request):
     
 def edit_cat(request):
     cat_id = request.GET.get('id')
-    cat = Cat.objects.filter(id=cat_id)
-    print(cat)
+    cat = Cat.objects.get(id=cat_id)
     form = EditForm(request.POST)
     if request.method == 'POST':
         if form.is_valid():
             data = form.cleaned_data
-            cat = Cat(
-                    name = data.get('name'),
-                    gender = data.get('gender'),
-                    age = data.get('age'),
-                    description = data.get('description'),
-                    breed = data.get('breed'),
-                    itype = data.get('itype'),
-                    status = data.get('status'),
-                    arrival_date = data.get('arrival_date'),
-                    arrival_details = data.get('arrival_details'),
-                    medical_history = data.get('medical_history'),
-                    vaccinations = data.get('vaccinations'),
-                    is_microchipped = data.get('is_microchipped'),
-                    flea_control_date = data.get('flea_control_date'),
-                    deworming_date = data.get('deworming_date'),
-                    fiv_felv_date = data.get('fiv_felv_date'),
-                    special_needs = data.get('special_needs'),
-                    personality = data.get('personality'),
-                    more_personality = data.get('more_personality'),
-                    comments = data.get('comments'),
-                    personal_exp = data.get('personal_exp'))
+            cat.name = data.get('name')
+            cat.gender = data.get('gender')
+            cat.age = data.get('age')
+            cat.description = data.get('description')
+            cat.breed = data.get('breed')
+            cat.itype = data.get('itype')
+            cat.status = data.get('status')
+            cat.arrival_date = data.get('arrival_date')
+            cat.arrival_details = data.get('arrival_details')
+            cat.medical_history = data.get('medical_history')
+            cat.vaccinations = data.get('vaccinations')
+            cat.is_microchipped = data.get('is_microchipped')
+            cat.flea_control_date = data.get('flea_control_date')
+            cat.deworming_date = data.get('deworming_date')
+            cat.fiv_felv_date = data.get('fiv_felv_date')
+            cat.special_needs = data.get('special_needs')
+            cat.personality = data.get('personality')
+            cat.more_personality = data.get('more_personality')
+            cat.comments = data.get('comments')
+            cat.personal_exp = data.get('personal_exp')
+            cat.save()
             return HttpResponseRedirect('/cat/?id=' + str(cat_id))
     else:
         return render(request, 'edit_profile.html', {'form': form, 'cat': cat})

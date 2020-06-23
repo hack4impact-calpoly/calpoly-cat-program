@@ -1,6 +1,10 @@
 {% load static %}
 <h4>Photos<h4>
-    
+<div class="container">
+    {% for pho in photos %}
+        <img src="{{ MEDIA_URL }}/media/{{ pho.photo}}" width="240">
+    {% endfor %}
+</div>
 
 <h4 class="mt-4">Upload Photo</h4>
 <form action="/photo_upload/" method="post" enctype="multipart/form-data">
