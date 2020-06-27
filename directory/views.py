@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 import datetime
 import calendar
 
-from .forms import IntakeForm, DocumentForm, EventForm
+from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm
 from .models import Cat, Document, Photo, Event
 
 def index(request):
@@ -194,9 +194,8 @@ def photo_upload(request):
             photo = Photo(
                     cat_id = cat_id,
                     photo = data.get('photo'),
-                    name = request.FILES['photo'].name,
+                    name = request.FILES['photo'].name, #name called by html
             )
-
             photo.save()
     return redirect('/cat/?id=' + str(cat_id))
 
@@ -208,7 +207,39 @@ def delete_document(request):
     cat_id = doc.cat_id
     doc.delete()
     return redirect('/cat/?id=' + str(cat_id))
-    
+
+def edit_cat(request):
+    cat_id = request.GET.get('id')
+    cat = Cat.objects.get(id=cat_id)
+    form = EditForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            data = form.cleaned_data
+            cat.name = data.get('name')
+            cat.gender = data.get('gender')
+            cat.age = data.get('age')
+            cat.description = data.get('description')
+            cat.breed = data.get('breed')
+            cat.itype = data.get('itype')
+            cat.status = data.get('status')
+            cat.arrival_date = data.get('arrival_date')
+            cat.arrival_details = data.get('arrival_details')
+            cat.medical_history = data.get('medical_history')
+            cat.vaccinations = data.get('vaccinations')
+            cat.is_microchipped = data.get('is_microchipped')
+            cat.flea_control_date = data.get('flea_control_date')
+            cat.deworming_date = data.get('deworming_date')
+            cat.fiv_felv_date = data.get('fiv_felv_date')
+            cat.special_needs = data.get('special_needs')
+            cat.personality = data.get('personality')
+            cat.more_personality = data.get('more_personality')
+            cat.comments = data.get('comments')
+            cat.personal_exp = data.get('personal_exp')
+            cat.save()
+            return HttpResponseRedirect('/cat/?id=' + str(cat_id))
+    else:
+        return render(request, 'edit_profile.html', {'form': form, 'cat': cat})
+
 def delete_event(request):
     event_id = request.GET.get('id')
     event = Event.objects.get(id=event_id)

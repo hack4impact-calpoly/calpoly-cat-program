@@ -41,7 +41,7 @@ class Cat(models.Model):
     ]
     gender = models.CharField(max_length=2, choices=GENDERS) 
 
-    age = models.DecimalField(max_digits=4, decimal_places=1) 
+    age = models.DecimalField(max_digits=4, decimal_places=1)
 
     # basic description (color)
     description = models.CharField(max_length=60) 

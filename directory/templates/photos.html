@@ -1,0 +1,17 @@
+{% load static %}
+<h4>Photos<h4>
+<div class="container">
+    {% for pho in photos %}
+        <img src="{{ MEDIA_URL }}/media/{{ pho.photo}}" width="240">
+    {% endfor %}
+</div>
+
+<h4 class="mt-4">Upload Photo</h4>
+<form action="/photo_upload/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="cat" value="{{ cat.id }}">
+    <div class="form-group">
+        <input type="file" name="photo" id="id_photo" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>

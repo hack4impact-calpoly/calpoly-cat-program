@@ -38,6 +38,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('cat/', views.cat_profile, name='Cat Profile'),
     path('document_upload/', views.document_upload),
+    path('photo_upload/', views.photo_upload),
     path('delete_document/', views.delete_document),
     path('update_cat/', views.update_cat),
     path('intake/', views.intake_form, name='Intake Form'),
@@ -50,4 +51,5 @@ urlpatterns = [
 
     path('api/', include(router.urls)),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('edit_profile/', views.edit_cat),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
