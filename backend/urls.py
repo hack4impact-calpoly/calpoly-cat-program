@@ -42,7 +42,13 @@ urlpatterns = [
     path('delete_document/', views.delete_document),
     path('update_cat/', views.update_cat),
     path('intake/', views.intake_form, name='Intake Form'),
+    path('events/', views.events, name='Events'),
+    path('event/', views.single_event, name='Event'),
+    path('delete_event/', views.delete_event),
     path('help/', views.help, name='help'),
+
+    path('accounts/', include('django.contrib.auth.urls')),
+
     path('api/', include(router.urls)),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
     path('edit_profile/', views.edit_cat),

@@ -89,17 +89,18 @@ class Photo(models.Model):
     name = models.TextField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+EVENT_TYPES = [
+    ('vet', 'Vet Appointment'),
+    ('adoption', 'Adoption Appointment'),
+    ('foster', 'Foster Appointment'),
+]
+
 class Event(models.Model):
     cat_id = models.IntegerField()
     title = models.CharField(max_length=60)
 
-    EVENT_TYPES = [
-        ('vet', 'Vet Appointment'),
-        ('adoption', 'Adoption Appointment'),
-        ('foster', 'Foster Appointment'),
-    ]
-
     event_type = models.CharField(max_length=9, choices=EVENT_TYPES)
-    datetime = models.DateTimeField()
+    date = models.DateField()
+    time = models.TimeField()
     notes = models.TextField(null=True, blank=True)
 

@@ -1,0 +1,55 @@
+{% extends 'single_form.html' %}{% load static %}
+{% block formContent %}
+
+<h2>Edit Event</h2>
+<form action="/event/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="event_id" value="{{event.id}}">
+    <div class="form-group">
+        <label for="id_title">Event Name</label>
+        <input type="text" class="form-control" name="title" id="id_title" maxlength="60" value="{{event.title}}" required>
+    </div>
+    <div class="form-group">
+        <label for="id_type">Event Type</label>
+        <select class="form-control" name="event_type" id="id_type" required>
+        {% if event.event_type == "vet" %}
+            <option value="vet" selected>Vet Appointment</option>
+            <option value="adoption">Adoption Appointment</option>
+            <option value="foster">Foster Appointment</option>
+        {% elif event.event_type == "adoption" %}
+            <option value="vet">Vet Appointment</option>
+            <option value="adoption" selected>Adoption Appointment</option>
+            <option value="foster">Foster Appointment</option>
+        {% elif event.event_type == "foster" %}
+            <option value="vet">Vet Appointment</option>
+            <option value="adoption">Adoption Appointment</option>
+            <option value="foster" selected>Foster Appointment</option>
+        {% endif %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_cat">Select Cat</label>
+        <select class="form-control" name="cat_id" id="cat_id" required>
+            {% for c in cats %}
+            {% if c.id == cat.id %}
+            <option value="{{ c.id }}" selected>{{c.name}}</option>
+            {% else %}
+            <option value="{{ c.id }}">{{c.name}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_datetime">Appointment Date</label>
+        <div class="d-flex">
+            <input type="date" class="form-control mr-3" name="date" id="id_datetime" required value="{{event.date|date:'yy-m-d'}}">
+            <input type="time" class="form-control ml-3" name="time" required value="{{event.time|date:'H:i'}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="id_notes">Notes</label>
+        <textarea class="form-control" id="id_notes" name="notes" rows="3">{{event.notes}}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Event</button>
+</form>
+{% endblock %}

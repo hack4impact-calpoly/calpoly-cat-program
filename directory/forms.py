@@ -2,6 +2,7 @@ from django import forms
 from directory.models import Cat
 from directory.models import Document 
 from directory.models import Photo
+from directory.models import Event 
 
 class IntakeForm(forms.ModelForm):
     class Meta:
@@ -35,3 +36,8 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ['photo']
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['cat_id', 'title', 'event_type', 'date', 'time', 'notes']

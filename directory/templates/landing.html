@@ -9,18 +9,28 @@
     </div>
 </header>
 
-<section id="#search">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2>TODO</h2>
-                <p class="lead">todo coming soon</p>
-            </div>
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2>Upcoming Events</h2>
+            <a href="events/">view all events</a>
+            <ul class="list-group">
+            {% for event in events %}
+                <li class="list-group-item" data-toggle="collapse" data-target="#e{{event.id}}">
+                    <div class="d-flex justify-content-between">
+                        <a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
+                            {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a>
+                        <span class="badge badge-primary">{{ event.event_type }}</span>
+                    </div>
+                    <div id="e{{event.id}}" class="collapse mt-2 ml-4">{{ event.notes }}</div>
+                </li>
+            {% endfor %}
+            </ul>
         </div>
     </div>
-</section>
+</div>
 
-<section id="#cats" class="bg-light">
+<div class="pt-5 pb-5 bg-light">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
@@ -89,6 +99,6 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 {% endblock pageContent %}
