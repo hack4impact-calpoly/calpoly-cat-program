@@ -32,10 +32,11 @@ def cat_profile(request):
         return render(request, 'intake.html', {'cat': cat, 'form': form, 'save': save, 'photos': photos})
     document_form = DocumentForm()
     documents = Document.objects.filter(cat_id=cat_id)
-    return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents, 'photos': photos})
+    return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents,
+        'photos': photos, 'htitle': cat.name})
 
 def help(request):
-    return render(request, 'help.html')
+    return render(request, 'help.html', {'htitle': "Help"})
 
 def events(request):
     now = datetime.datetime.now()
@@ -61,7 +62,8 @@ def events(request):
     names = Cat.objects.filter(id=OuterRef('cat_id'))
     events = Event.objects.filter(date__range=(start, end)).annotate(name=Subquery(names.values('name'))).order_by('date', 'time')
     
-    return render(request, 'events.html', {'events': events, 'dates': dates, 'names': names})
+    return render(request, 'events.html', {'events': events, 'dates': dates, 'names': names,
+        'htitle': "Events ({0}-{1})".format(month, year%100)})
 
 def single_event(request):
     if request.method == 'POST' and request.user.is_authenticated and request.POST.get('event_id') is None:
@@ -92,15 +94,15 @@ def single_event(request):
     if request.GET.get('action') == 'add' and request.user.is_authenticated:
         form = EventForm()
         cats = Cat.objects.all()
-        return render(request, 'add_event.html', {'form': form, 'cats': cats})
+        return render(request, 'add_event.html', {'form': form, 'cats': cats, 'htitle': "Create Event"})
     if request.GET.get('id') is not None:
         e_id = request.GET.get('id')
         event = Event.objects.get(id=e_id)
         cat = Cat.objects.get(id=event.cat_id)
         if request.GET.get('action') == 'edit':
             cats = Cat.objects.all()
-            return render(request, 'edit_event.html', {'event': event, 'cat': cat, 'cats': cats})
-        return render(request, 'event.html', {'event': event, 'cat': cat})
+            return render(request, 'edit_event.html', {'event': event, 'cat': cat, 'cats': cats, 'htitle': "Edit: "+event.title})
+        return render(request, 'event.html', {'event': event, 'cat': cat, 'htitle': event.title })
 
     return redirect('/events/')
 
@@ -135,7 +137,7 @@ def intake_form(request):
             return HttpResponseRedirect('/cat/?id=' + str(cat.id))
     else:
         form = IntakeForm()
-    return render(request, 'intake.html', {'form': form})
+    return render(request, 'intake.html', {'form': form, 'htitle': "Intake Form"})
 
 def update_cat(request):
     if request.method == 'POST' and request.user.is_authenticated:
