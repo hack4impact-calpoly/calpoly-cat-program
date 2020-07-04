@@ -52,8 +52,8 @@ class Cat(models.Model):
 
     STATUSES = [
         ('adopt', 'For adoption'),
-        ('temp', 'Temporary'),
-        ('perm', 'Permanent'),
+        ('temporary', 'Temporary'),
+        ('permanent', 'Permanent'),
     ]
     status = models.CharField(max_length=10, choices=STATUSES)
     arrival_date = models.DateField(default=date.today)
@@ -87,6 +87,7 @@ class Photo(models.Model):
     cat_id = models.IntegerField()
     photo = models.FileField(upload_to=photo_path)
     name = models.TextField()
+    description = models.CharField(max_length=60, blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
 EVENT_TYPES = [
@@ -96,7 +97,7 @@ EVENT_TYPES = [
 ]
 
 class Event(models.Model):
-    cat_id = models.IntegerField()
+    cat_id = models.CharField(max_length=8)
     title = models.CharField(max_length=60)
 
     event_type = models.CharField(max_length=9, choices=EVENT_TYPES)
@@ -104,3 +105,17 @@ class Event(models.Model):
     time = models.TimeField()
     notes = models.TextField(null=True, blank=True)
 
+class FileBackup(models.Model):
+    cat_id = models.CharField(max_length=4)
+    cat_name = models.CharField(max_length=50)
+    file_title = models.CharField(max_length=80)
+    url = models.CharField(max_length=90)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        photoCheck = self.file_title.find('photos')
+        if photoCheck != -1:
+            return self.cat_name +" - "+self.file_title[photoCheck + 7:]
+        fileStart = self.file_title.find('/', 10)
+        return self.cat_name +" - "+self.file_title[fileStart + 1:]
+ 

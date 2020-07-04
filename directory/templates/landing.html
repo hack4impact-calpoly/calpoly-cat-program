@@ -2,13 +2,14 @@
 {% load mathfilters %}
 {% block pageContent %}
 
-<header class="bg-primary text-white">
+<header class="bg-primary text-dark">
     <div class="container text-center">
         <h1>Welcome back CalPoly Cat Program!</h1>
         <p class="lead">We hope you're having a great day</p>
     </div>
 </header>
 
+{% if user.is_authenticated %}
 <div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-lg-8 mx-auto">
@@ -18,9 +19,9 @@
             {% for event in events %}
                 <li class="list-group-item" data-toggle="collapse" data-target="#e{{event.id}}">
                     <div class="d-flex justify-content-between">
-                        <a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
-                            {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a>
-                        <span class="badge badge-primary">{{ event.event_type }}</span>
+                        <span><a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
+                            {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a></span>
+                        <span><span class="badge badge-primary">{{ event.event_type }}</span></span>
                     </div>
                     <div id="e{{event.id}}" class="collapse mt-2 ml-4">{{ event.notes }}</div>
                 </li>
@@ -29,6 +30,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 <div class="pt-5 pb-5 bg-light">
     <div class="container">
@@ -39,41 +41,39 @@
                     <input type="text" class="form-control" id="search" placeholder="search">
                 </div>
                 <div class="d-flex justify-content-between mb-2">
-                    <p class="lead">results: <span id="result_count">{{ cats.count }}</span></p>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <span class="lead">results: <span id="result_count">{{ cats.count }}</span></span>
+                    <span class="btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-secondary active">
                             <input type="radio" name="layout" id="list" checked> List 
                         </label>
                         <label class="btn btn-secondary">
                             <input type="radio" name="layout" id="grid"> Grid 
                         </label>
-                    </div>
+                    </span>
                 </div>
 
-                <div class="d-flex" id="cat_grid" style="display:none !important"> 
-                    <div class="col-lg-6">
-                        {% for cat in cats %}
-                        {% if forloop.counter0 == cats.count|intdiv:2 %}
-                    </div>
-                    <div class="col-lg-6">
-                        {% endif %}
-                        <a class="card text-dark mb-3 text-decoration-none" style="width:18rem" href="cat/?id={{ cat.id }}">
-                            <img class="card-img-top" src="..." alt="[cat picture]">
-                            <div class="card-body">
-                                <h5 class="card-title"><span class="name">{{ cat.name }}</span> ({{ cat.age }}/{{ cat.gender }})</h5>
-                                <p class="card-text">
-                                    {% if cat.status == "adopt" %}
-                                    for adoption
-                                    {% elif cat.status == "temp" %}
-                                    temporary
-                                    {% elif cat.status == "perm" %}
-                                    permanant
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </a>
-                        {% endfor %}
-                    </div>
+                <div class="grid-container" id="cat_grid" style="display:none !important"> 
+                     {% for cat in cats %}
+                     <div class="fake-card mb-3">
+                         {% if cat.photo is not None %}
+                         <img class="card-img-top" src="media/{{ cat.photo }}" alt="[cat picture]">
+                         {% endif %}
+                         <a href="cat/?id={{ cat.id }}" class="text-decoration-none text-dark">
+                         <div class="card-body bg-primary">
+                             <h5 class="card-title"><span class="name">{{ cat.name }}</span> ({{ cat.age }}/{{ cat.gender }})</h5>
+                             <p class="card-text">
+                                 {% if cat.status == "adopt" %}
+                                 for adoption
+                                 {% elif cat.status == "temporary" %}
+                                 temporary
+                                 {% elif cat.status == "permanent" %}
+                                 permanant
+                                 {% endif %}
+                             </p>
+                         </div>
+                         </a>
+                     </div>
+                     {% endfor %}
                 </div>
                 <div class="col-lg-12 auto-mx" id="cat_list" style="">
                     <ul class="list-group list-group-flush col-lg-12">
@@ -86,9 +86,9 @@
                         <div>
                             {% if cat.status == "adopt" %}
                             for adoption
-                            {% elif cat.status == "temp" %}
+                            {% elif cat.status == "temporary" %}
                             temporary
-                            {% elif cat.status == "perm" %}
+                            {% elif cat.status == "permanent" %}
                             permanant
                             {% endif %}
                         </div>

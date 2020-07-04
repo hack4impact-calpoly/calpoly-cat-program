@@ -21,18 +21,20 @@
                 {% for event in events %}
                     <li class="list-group-item" data-toggle="collapse" data-target="#e{{event.id}}">
                         <div class="d-flex justify-content-between">
-                            <a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
-                                {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a>
-                            <span class="badge badge-primary">{{ event.event_type }}</span>
+                            <span><a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
+                                {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a></span>
+                            <span><span class="badge badge-primary">{{ event.event_type }}</span></span>
                         </div>
                         <div id="e{{event.id}}" class="collapse mt-2 ml-4">{{ event.notes }}</div>
                     </li>
                 {% endfor %}
                 </ul>
 
+                {% if user.is_authenticated %}
                 <div class="d-flex justify-content-end mt-2">
                     <a class="btn btn-primary" href="/event/?action=add">Add Event</a>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

@@ -1,4 +1,77 @@
-
 .clickable-row {
     cursor: pointer;
+}
+
+.form-group.required label:after {
+    content:"*";
+    color:red;
+}
+
+.multiline {
+    white-space: pre-wrap;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23343a40' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23343a40' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 30px;
+}
+
+.grid-container > div {
+    margin: 0 20px;
+    max-width: 300px;
+    min-width: 137px;
+}
+
+@media only screen and (max-width: 500px) {
+    .grid-container {
+        grid-template-columns: auto;
+    }
+
+    .grid-container > div {
+        margin: 0 60px;
+    }
+}
+
+/* colors + accessibility tweaks */
+.bg-dark {
+    background-color: #15759b !important;
+}
+
+.bg-primary {
+    background-color: #a7d6e5 !important;
+}
+
+.badge-primary {
+    background-color: #15759b !important;
+}
+
+.btn-primary {
+    background-color: #15759b !important;
+    border-color: #15759b !important;
+}
+
+.page-link {
+    color: #15759b !important;
+
+}
+.page-item.active .page-link {
+    background-color: #15759b !important;
+    border-color: #15759b !important;
+    color: #fff !important;
+}
+.nav-link {
+    color: rgba(255, 255, 255, .8) !important;
+}
+
+.nav-link:hover {
+    color: rgba(255, 255, 255, .95) !important;
 }

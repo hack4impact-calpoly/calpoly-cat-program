@@ -7,11 +7,12 @@ from django.contrib.auth import authenticate, login, logout
 import datetime
 import calendar
 
-from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm
-from .models import Cat, Document, Photo, Event
+from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm, EditForm
+from .models import Cat, Document, Photo, Event, FileBackup
 
 def index(request):
-    cats = Cat.objects.all()
+    photos = Photo.objects.filter(cat_id=OuterRef('id'))
+    cats = Cat.objects.all().annotate(photo=Subquery(photos.values('photo')))
 
     current_time = datetime.datetime.now()
     start_date = current_time - datetime.timedelta(hours=12)
@@ -24,11 +25,13 @@ def index(request):
 def cat_profile(request):
     cat_id = request.GET.get('id')
     cat = Cat.objects.get(id=cat_id)
+    photos = Photo.objects.filter(cat_id=cat_id)
     if request.GET.get('action') == "edit":
-        return render(request, 'edit_profile.html', {'cat': cat})
+        form = IntakeForm()
+        save = {'title': "Edit "+cat.name+"'s Profile", 'link': '/update_cat/'}
+        return render(request, 'intake.html', {'cat': cat, 'form': form, 'save': save, 'photos': photos})
     document_form = DocumentForm()
     documents = Document.objects.filter(cat_id=cat_id)
-    photos = Photo.objects.filter(cat_id=cat_id)
     return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents, 'photos': photos})
 
 def help(request):
@@ -61,7 +64,7 @@ def events(request):
     return render(request, 'events.html', {'events': events, 'dates': dates, 'names': names})
 
 def single_event(request):
-    if request.method == 'POST' and request.POST.get('event_id') is None:
+    if request.method == 'POST' and request.user.is_authenticated and request.POST.get('event_id') is None:
         form = EventForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -74,7 +77,7 @@ def single_event(request):
                     notes = data.get('notes'))
             event.save()
             return redirect('/event/?id=' + str(event.id))
-    if request.method == 'POST' and request.POST.get('event_id') is not None:
+    if request.method == 'POST' and request.user.is_authenticated and request.POST.get('event_id') is not None:
         form = EventForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -86,7 +89,7 @@ def single_event(request):
                     time = data.get('time'),
                     notes = data.get('notes'))
             return redirect('/event/?id=' + str(request.POST.get('event_id')))
-    if request.GET.get('action') == 'add':
+    if request.GET.get('action') == 'add' and request.user.is_authenticated:
         form = EventForm()
         cats = Cat.objects.all()
         return render(request, 'add_event.html', {'form': form, 'cats': cats})
@@ -135,13 +138,11 @@ def intake_form(request):
     return render(request, 'intake.html', {'form': form})
 
 def update_cat(request):
-    if request.method == 'POST':
-        cat_id = request.POST.get('id')
+    if request.method == 'POST' and request.user.is_authenticated:
         form = IntakeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            cat = Cat(
-                    id = cat_id, # should UPDATE with specified key
+            Cat.objects.filter(id=request.POST.get('id')).update(
                     name = data.get('name'),
                     gender = data.get('gender'),
                     age = data.get('age'),
@@ -162,16 +163,14 @@ def update_cat(request):
                     more_personality = data.get('more_personality'),
                     comments = data.get('comments'),
                     personal_exp = data.get('personal_exp'))
-
-            cat.save()
-            return HttpResponseRedirect('/cat/?id=' + str(cat.id))
+            return HttpResponseRedirect('/cat/?id=' + request.POST.get('id'))
     else:
         return redirect('/')
 
 def document_upload(request):
     cat_id = request.POST.get('cat')
     cat = Cat.objects.get(id=cat_id)
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
@@ -181,66 +180,61 @@ def document_upload(request):
                     name = request.FILES['document'].name,
                     description = data.get('description')
             )
-
             document.save()
+
+            FileBackup(
+                cat_id = cat_id,
+                cat_name = cat.name,
+                file_title = request.FILES['document'].name,
+                url = 'https://cpcp-cats.herokuapp.com/media/documents/cat_{0}/{1}'.format(cat_id, request.FILES['photo'].name)
+            ).save()
     return redirect('/cat/?id=' + str(cat_id))
 
 def photo_upload(request):
-    cat_id = request.POST.get('cat')
-    if request.method == 'POST':
+    cat_id = request.POST.get('cat_id')
+    cat = Cat.objects.get(id=cat_id)
+    if request.method == 'POST' and request.user.is_authenticated:
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
             photo = Photo(
                     cat_id = cat_id,
                     photo = data.get('photo'),
+                    description = data.get('description'), 
                     name = request.FILES['photo'].name, #name called by html
             )
             photo.save()
+
+            FileBackup(
+                cat_id = cat_id,
+                cat_name = cat.name,
+                file_title = request.FILES['photo'].name,
+                url = 'https://cpcp-cats.herokuapp.com/media/documents/cat_{0}/photos/{1}'.format(cat_id, request.FILES['photo'].name)
+            ).save()
+
     return redirect('/cat/?id=' + str(cat_id))
 
-# TODO add confirmation before delete
-# TODO delete the actual file from the system
 def delete_document(request):
     doc_id = request.GET.get('id')
     doc = Document.objects.get(id=doc_id)
     cat_id = doc.cat_id
+    if not request.user.is_authenticated:
+        return redirect('/cat/?id=' + str(cat_id))
     doc.delete()
     return redirect('/cat/?id=' + str(cat_id))
 
-def edit_cat(request):
-    cat_id = request.GET.get('id')
-    cat = Cat.objects.get(id=cat_id)
-    form = EditForm(request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            data = form.cleaned_data
-            cat.name = data.get('name')
-            cat.gender = data.get('gender')
-            cat.age = data.get('age')
-            cat.description = data.get('description')
-            cat.breed = data.get('breed')
-            cat.itype = data.get('itype')
-            cat.status = data.get('status')
-            cat.arrival_date = data.get('arrival_date')
-            cat.arrival_details = data.get('arrival_details')
-            cat.medical_history = data.get('medical_history')
-            cat.vaccinations = data.get('vaccinations')
-            cat.is_microchipped = data.get('is_microchipped')
-            cat.flea_control_date = data.get('flea_control_date')
-            cat.deworming_date = data.get('deworming_date')
-            cat.fiv_felv_date = data.get('fiv_felv_date')
-            cat.special_needs = data.get('special_needs')
-            cat.personality = data.get('personality')
-            cat.more_personality = data.get('more_personality')
-            cat.comments = data.get('comments')
-            cat.personal_exp = data.get('personal_exp')
-            cat.save()
-            return HttpResponseRedirect('/cat/?id=' + str(cat_id))
-    else:
-        return render(request, 'edit_profile.html', {'form': form, 'cat': cat})
+def delete_photo(request):
+    photo_id = request.GET.get('id')
+    photo = Photo.objects.get(id=photo_id)
+    cat_id = photo.cat_id
+    if not request.user.is_authenticated:
+        return redirect('/cat/?id=' + str(cat_id))
+    photo.delete()
+    return redirect('/cat/?action=edit&id=' + str(cat_id))
 
 def delete_event(request):
+    if not request.user.is_authenticated:
+        return redirect('/events/')
     event_id = request.GET.get('id')
     event = Event.objects.get(id=event_id)
     event.delete()

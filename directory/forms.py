@@ -35,7 +35,7 @@ class DocumentForm(forms.ModelForm):
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['photo']
+        fields = ['photo', 'description']
 
 class EventForm(forms.ModelForm):
     class Meta:

@@ -5,27 +5,80 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <h2>{{ cat.name }}</h2>
-                <p class="lead">About me: {{ cat.personality }}</p>
-                <p class="lead">Gender: {{ cat.gender }}</p>
-                <p class="lead">Age: {{ cat.age }}</p>
-                <p class="lead">Description: {{ cat.description }}</p>
-                <p class="lead">Breed: {{ cat.breed }}</p>
-                <p class="lead">Type: {{ cat.itype }}</p>
-                <p class="lead">Status: {{ cat.status }}</p>
-                <p class="lead">Arrival Date: {{ cat.arrival_date }}</p>
-                <p class="lead">Arrival Details: {{ cat.arrival_details }}</p>
-                <p class="lead">Medical History: {{ cat.medical_history }}</p>
-                <p class="lead">Vaccinations: {{ cat.vaccinations }}</p>
-                <p class="lead">Is Microchipped: {{ cat.is_microchipped }}</p>
-                <p class="lead">Flea Control done on: {{ cat.flea_control_date }}</p>
-                <p class="lead">Deworming done on: {{ cat.deworming_date }}</p>
-                <p class="lead">FIV-FELV, date tested: {{ cat.fiv_felv_date }}</p>
-                <p class="lead">Special Needs: {{ cat.special_needs }}</p>
-                <p class="lead">A bit more about me: {{ cat.more_personality }}</p>
-                <p class="lead">Comments: {{ cat.comments }}</p>
-                <p class="lead">Personal experiences: {{ cat.personal_exp }}</p>
-                <a href="/edit_profile/?id={{ cat.id }}"><button type="button" class="btn btn-primary btn-sm">Edit Cat</button></a><br><br>
+                <div class="d-flex justify-content-between">
+                    <h2>{{ cat.name }} ({{cat.age}}/{{cat.gender}})</h2>
+                    {% if user.is_authenticated %}
+                    <span><a class="btn btn-primary btn-small" href="/cat/?action=edit&id={{ cat.id }}" role="button">Update Info</a><span>
+                    {% endif %}
+                </div>
+                <p>Description: {{ cat.description }}<br>
+                Breed: {{ cat.breed }}<br>
+                Status:
+                {% if cat.status == "adopt" %}for adoption
+                {% elif cat.status == "temporary" %}temporary
+                {% else %}permanent{% endif %}</p>
+                <p>About me: {{ cat.personality }}</p>
+                {% if cat.more_personality != "" %}
+                <div class="d-flex">
+                    <span class="mr-2">More about me: </span>
+                    <span class="multiline">{{ cat.more_personality }}</span>
+                </div><br>
+                {% endif %}
+                <h3>Arrival Details</h3>
+                <div>Arrival Date: {{ cat.arrival_date }}</div>
+                <div class="d-flex">
+                    <span class="mr-2">Arrival Details:</span>
+                    <span class="multiline">{{ cat.arrival_details }}</span>
+                </div>
+                <p>Type: {{ cat.itype }}</p>
+                <h3>Health Details</h3>
+                <div class="d-flex">
+                    <span class="mr-2">Medical History:</span>
+                    <span class="multiline">{{ cat.medical_history }}</span>
+                </div>
+                <div class="d-flex">
+                    <span class="mr-2">Vaccinations:</span>
+                    <span class="multiline">{{ cat.vaccinations }}</span>
+                </div>
+                <p>Is Microchipped: {% if cat.is_microchipped %}yes{% else %}no{% endif %}</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Test</th>
+                            <th scope="col">Flea Control</th>
+                            <th scope="col">Deworming</th>
+                            <th scope="col">FIV-FELV</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Date</th>
+                            <td>{{cat.flea_control_date}}</td>
+                            <td>{{cat.deworming_date}}</td>
+                            <td>{{cat.fiv_felv_date}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex">
+                    <span class="mr-2">Special Needs:</span>
+                    <span class="multiline">{% if cat.special_needs == "" %}none{% else %}{{ cat.special_needs }}{% endif %}</span>
+                </div><br>
+                {% if cat.personal_exp != "" and cat.comments != "" %}
+                <h3>More Info</h3>
+                    {% if cat.personal_exp != "" %}
+                    <div class="d-flex">
+                        <span class="mr-2">Personal Experiences:</span>
+                        <span class="multiline">{{ cat.personal_exp }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if cat.comments != "" %}
+                    <div class="d-flex">
+                        <span class="mr-2">Comments:</span>
+                        <span class="multiline">{{ cat.comments }}</span>
+                    </div>
+                    {% endif %}
+                {% endif %}
             </div>
         </div>
         <div class="row">
