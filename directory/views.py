@@ -1,37 +1,35 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.db.models import OuterRef, Subquery
 from django.contrib.auth import authenticate, login, logout
 import datetime
 import calendar
 
-from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm, EditForm
-from .models import Cat, Document, Photo, Event, FileBackup
+from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm
+from .models import Cat, Document, Photo, Event
 
 def index(request):
-    photos = Photo.objects.filter(cat_id=OuterRef('id'))
+    photos = Photo.objects.filter(cat_id=OuterRef('id'), hidden=False)
     cats = Cat.objects.all().annotate(photo=Subquery(photos.values('photo')))
 
     current_time = datetime.datetime.now()
     start_date = current_time - datetime.timedelta(hours=12)
-    end_date = current_time + datetime.timedelta(days=5)
+    end_date = current_time + datetime.timedelta(days=10)
     names = Cat.objects.filter(id=OuterRef('cat_id'))
-    events = Event.objects.filter(date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
+    events = Event.objects.filter(hidden=False, date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
 
     return render(request, 'landing.html', {'cats': cats, 'events': events})
 
 def cat_profile(request):
     cat_id = request.GET.get('id')
-    cat = Cat.objects.get(id=cat_id)
-    photos = Photo.objects.filter(cat_id=cat_id)
+    cat = get_object_or_404(Cat, id=cat_id)
+    photos = Photo.objects.filter(hidden=False, cat_id=cat_id)
     if request.GET.get('action') == "edit":
         form = IntakeForm()
         save = {'title': "Edit "+cat.name+"'s Profile", 'link': '/update_cat/'}
         return render(request, 'intake.html', {'cat': cat, 'form': form, 'save': save, 'photos': photos})
     document_form = DocumentForm()
-    documents = Document.objects.filter(cat_id=cat_id)
+    documents = Document.objects.filter(hidden=False, cat_id=cat_id)
     return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents,
         'photos': photos, 'htitle': cat.name})
 
@@ -60,7 +58,8 @@ def events(request):
             dates.append(tuple((month+i, year)))
 
     names = Cat.objects.filter(id=OuterRef('cat_id'))
-    events = Event.objects.filter(date__range=(start, end)).annotate(name=Subquery(names.values('name'))).order_by('date', 'time')
+    events = Event.objects.filter(hidden=False, date__range=(start, end)).annotate(
+               name=Subquery(names.values('name'))).order_by('date', 'time')
     
     return render(request, 'events.html', {'events': events, 'dates': dates, 'names': names,
         'htitle': "Events ({0}-{1})".format(month, year%100)})
@@ -97,7 +96,7 @@ def single_event(request):
         return render(request, 'add_event.html', {'form': form, 'cats': cats, 'htitle': "Create Event"})
     if request.GET.get('id') is not None:
         e_id = request.GET.get('id')
-        event = Event.objects.get(id=e_id)
+        event = get_object_or_404(Event, id=e_id)
         cat = Cat.objects.get(id=event.cat_id)
         if request.GET.get('action') == 'edit':
             cats = Cat.objects.all()
@@ -107,7 +106,7 @@ def single_event(request):
     return redirect('/events/')
 
 def intake_form(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated:
         form = IntakeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -135,9 +134,10 @@ def intake_form(request):
 
             cat.save()
             return HttpResponseRedirect('/cat/?id=' + str(cat.id))
-    else:
+    elif request.user.is_authenticated:
         form = IntakeForm()
-    return render(request, 'intake.html', {'form': form, 'htitle': "Intake Form"})
+        return render(request, 'intake.html', {'form': form, 'htitle': "Intake Form"})
+    return HttpResponseForbidden("Error 403: You are not authorized to view this page")
 
 def update_cat(request):
     if request.method == 'POST' and request.user.is_authenticated:
@@ -176,19 +176,10 @@ def document_upload(request):
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            document = Document(
-                    cat_id = cat_id,
-                    document = data.get('document'),
-                    name = request.FILES['document'].name,
-                    description = data.get('description')
-            )
-            document.save()
-
-            FileBackup(
-                cat_id = cat_id,
-                cat_name = cat.name,
-                file_title = request.FILES['document'].name,
-                url = 'https://cpcp-cats.herokuapp.com/media/documents/cat_{0}/{1}'.format(cat_id, request.FILES['photo'].name)
+            Document(cat_id = cat_id,
+               document = data.get('document'),
+               name = request.FILES['document'].name,
+               description = data.get('description')
             ).save()
     return redirect('/cat/?id=' + str(cat_id))
 
@@ -199,45 +190,30 @@ def photo_upload(request):
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            photo = Photo(
-                    cat_id = cat_id,
-                    photo = data.get('photo'),
-                    description = data.get('description'), 
-                    name = request.FILES['photo'].name, #name called by html
-            )
-            photo.save()
-
-            FileBackup(
-                cat_id = cat_id,
-                cat_name = cat.name,
-                file_title = request.FILES['photo'].name,
-                url = 'https://cpcp-cats.herokuapp.com/media/documents/cat_{0}/photos/{1}'.format(cat_id, request.FILES['photo'].name)
+            Photo(cat_id = cat_id,
+               photo = data.get('photo'),
+               name = request.FILES['photo'].name,
+               description = data.get('description') 
             ).save()
-
     return redirect('/cat/?id=' + str(cat_id))
 
 def delete_document(request):
     doc_id = request.GET.get('id')
-    doc = Document.objects.get(id=doc_id)
-    cat_id = doc.cat_id
-    if not request.user.is_authenticated:
-        return redirect('/cat/?id=' + str(cat_id))
-    doc.delete()
-    return redirect('/cat/?id=' + str(cat_id))
+    doc = Document.objects.filter(id=doc_id)
+    if request.user.is_authenticated:
+        doc.update(hidden=True)
+    return redirect('/cat/?id=' + str(doc[0].cat_id))
 
 def delete_photo(request):
     photo_id = request.GET.get('id')
-    photo = Photo.objects.get(id=photo_id)
-    cat_id = photo.cat_id
-    if not request.user.is_authenticated:
-        return redirect('/cat/?id=' + str(cat_id))
-    photo.delete()
-    return redirect('/cat/?action=edit&id=' + str(cat_id))
+    photo = Photo.objects.filter(id=photo_id)
+    if request.user.is_authenticated:
+        photo.update(hidden=True)
+    return redirect('/cat/?action=edit&id=' + str(photo[0].cat_id))
 
 def delete_event(request):
-    if not request.user.is_authenticated:
-        return redirect('/events/')
     event_id = request.GET.get('id')
-    event = Event.objects.get(id=event_id)
-    event.delete()
+    event = Event.objects.filter(id=event_id)
+    if request.user.is_authenticated:
+        event.update(hidden=True)
     return redirect('/events/')

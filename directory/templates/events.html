@@ -1,4 +1,5 @@
 {% extends 'base.html' %}{% load static %}
+{% load customtags %}
 {% block pageContent %}
 
 <section id="#events">
@@ -10,10 +11,10 @@
                 {% for combo in dates %}
                     {% if forloop.counter == 3 %}
                     <li class="page-item active">
-                        <span class="page-link">{{combo.0}}-{{combo.1}}</a></li>
+                        <span class="page-link">{{combo.0}}-{{combo.1|modulo:100}}</a></li>
                     {% else %}
                     <li class="page-item">
-                        <a class="page-link" href="/events/?y={{combo.1}}&m={{combo.0}}">{{combo.0}}-{{combo.1}}</a></li>
+                        <a class="page-link" href="/events/?y={{combo.1}}&m={{combo.0}}">{{combo.0}}-{{combo.1|modulo:100}}</a></li>
                     {% endif %}
                 {% endfor %}
                 </ul>

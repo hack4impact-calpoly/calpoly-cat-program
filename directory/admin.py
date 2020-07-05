@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import FileBackup
+from .models import Document, Photo, Event
 
 # Register your models here.
-admin.site.register(FileBackup)
+admin.site.register(Document)
+admin.site.register(Photo)
+admin.site.register(Event)

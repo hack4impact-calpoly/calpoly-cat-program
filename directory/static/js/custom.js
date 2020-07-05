@@ -40,7 +40,7 @@ $('#search').keyup(function() {
         $(hide[i]).closest("li").attr('style','display:none !important');
 
     for (let i = 0; i < show.length / 2; i++)
-        $(show[i]).closest(".fake-card").attr('style','width:18rem');
+        $(show[i]).closest(".fake-card").attr('style', '');
 
     for (let i = show.length / 2; i < show.length; i++)
         $(show[i]).closest("li").attr('style','');

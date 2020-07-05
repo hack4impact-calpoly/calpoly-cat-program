@@ -40,11 +40,8 @@ class Cat(models.Model):
         ('F', 'Female'),
     ]
     gender = models.CharField(max_length=2, choices=GENDERS) 
-
     age = models.DecimalField(max_digits=4, decimal_places=1)
-
-    # basic description (color)
-    description = models.CharField(max_length=60) 
+    description = models.CharField(max_length=60) # basic description (color)
     breed = models.CharField(max_length=35)
 
     ITYPES = [('DSH', 'DSH'), ('DMH', 'DMH'), ('DLH', 'DLH')]
@@ -79,6 +76,10 @@ class Document(models.Model):
     name = models.TextField()
     description = models.CharField(max_length=60, blank=True) 
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    hidden = models.BooleanField(default=False)
+
+    def __str__(self):
+        return Cat.objects.get(id=self.cat_id).name + " - " + self.name + hidden_title(self.hidden)
     
 def photo_path(instance, filename):
     return 'documents/cat_{0}/photos/{1}'.format(instance.cat_id, filename)
@@ -89,6 +90,10 @@ class Photo(models.Model):
     name = models.TextField()
     description = models.CharField(max_length=60, blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    hidden = models.BooleanField(default=False)
+
+    def __str__(self):
+        return Cat.objects.get(id=self.cat_id).name + " - " + self.name + hidden_title(self.hidden)
 
 EVENT_TYPES = [
     ('vet', 'Vet Appointment'),
@@ -104,18 +109,10 @@ class Event(models.Model):
     date = models.DateField()
     time = models.TimeField()
     notes = models.TextField(null=True, blank=True)
-
-class FileBackup(models.Model):
-    cat_id = models.CharField(max_length=4)
-    cat_name = models.CharField(max_length=50)
-    file_title = models.CharField(max_length=80)
-    url = models.CharField(max_length=90)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    hidden = models.BooleanField(default=False)
 
     def __str__(self):
-        photoCheck = self.file_title.find('photos')
-        if photoCheck != -1:
-            return self.cat_name +" - "+self.file_title[photoCheck + 7:]
-        fileStart = self.file_title.find('/', 10)
-        return self.cat_name +" - "+self.file_title[fileStart + 1:]
- 
+        return Cat.objects.get(id=self.cat_id).name + " - " + self.title + hidden_title(self.hidden)
+
+def hidden_title(hiddenField):
+    return " [Hidden]" if (hiddenField) else ""
