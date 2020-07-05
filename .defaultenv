@@ -1,4 +1,6 @@
-# generate a key from https://djecrety.ir or equivalent
-SECRET_KEY=''
+# move this file to .env before running server
+
+SECRET_KEY='' # generate a key from https://djecrety.ir or equivalent
+SERVER_URL=''
 DEBUG=True
 ISPROD=False
