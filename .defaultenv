@@ -1,0 +1,4 @@
+# generate a key from https://djecrety.ir or equivalent
+SECRET_KEY=''
+DEBUG=True
+ISPROD=False
