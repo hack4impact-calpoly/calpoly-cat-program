@@ -63,7 +63,7 @@
                     <span class="mr-2">Special Needs:</span>
                     <span class="multiline">{% if cat.special_needs == "" %}none{% else %}{{ cat.special_needs }}{% endif %}</span>
                 </div><br>
-                {% if cat.personal_exp != "" and cat.comments != "" %}
+                {% if cat.personal_exp != "" or cat.comments != "" %}
                 <h3>More Info</h3>
                     {% if cat.personal_exp != "" %}
                     <div class="d-flex">
