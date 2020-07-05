@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
-from django.db.models import OuterRef, Subquery
+from django.db.models import OuterRef, Subquery, IntegerField
+from django.db.models.functions import Cast
 from django.contrib.auth import authenticate, login, logout
 import datetime
 import calendar
@@ -15,7 +16,7 @@ def index(request):
     current_time = datetime.datetime.now()
     start_date = current_time - datetime.timedelta(hours=12)
     end_date = current_time + datetime.timedelta(days=10)
-    names = Cat.objects.filter(id=OuterRef('cat_id'))
+    names = Cat.objects.filter(id=Cast(OuterRef('cat_id'), IntegerField()))
     events = Event.objects.filter(hidden=False, date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
 
     return render(request, 'landing.html', {'cats': cats, 'events': events})
@@ -57,7 +58,7 @@ def events(request):
         else:
             dates.append(tuple((month+i, year)))
 
-    names = Cat.objects.filter(id=OuterRef('cat_id'))
+    names = Cat.objects.filter(id=Cast(OuterRef('cat_id'), IntegerField()))
     events = Event.objects.filter(hidden=False, date__range=(start, end)).annotate(
                name=Subquery(names.values('name'))).order_by('date', 'time')
     
@@ -97,7 +98,7 @@ def single_event(request):
     if request.GET.get('id') is not None:
         e_id = request.GET.get('id')
         event = get_object_or_404(Event, id=e_id)
-        cat = Cat.objects.get(id=event.cat_id)
+        cat = Cat.objects.get(id=Cast(event.cat_id, IntegerField()))
         if request.GET.get('action') == 'edit':
             cats = Cat.objects.all()
             return render(request, 'edit_event.html', {'event': event, 'cat': cat, 'cats': cats, 'htitle': "Edit: "+event.title})
