@@ -17,11 +17,18 @@ class UserViewSet(viewsets.ModelViewSet):
 class CatViewSet(viewsets.ModelViewSet):
     queryset = Cat.objects.all()
     serializer_class = CatSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Cat.objects.all()
+        cat_id = self.request.query_params.get('cat_id', None)
+        if cat_id is not None:
+            queryset = queryset.filter(id=cat_id)
+        return queryset
 
 class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer 
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = Document.objects.filter(hidden=False)
@@ -32,7 +39,7 @@ class DocumentViewSet(viewsets.ModelViewSet):
         
 class PhotoViewSet(viewsets.ModelViewSet):
     serializer_class = PhotoSerializer 
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = Photo.objects.filter(hidden=False)
@@ -43,7 +50,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
         
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer 
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = Event.objects.filter(hidden=False)

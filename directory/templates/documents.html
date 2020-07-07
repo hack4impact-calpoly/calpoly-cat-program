@@ -7,11 +7,11 @@
     {% for doc in documents %}
     <li class="list-group-item d-flex justify-content-between text-decoration-none">
         <div>
-            <a href="{{ MEDIA_URL }}/media/{{ doc.document}}" target="_blank">{{ doc.name }}</a>
+            <a href="{{ doc.document.url }}" target="_blank">{{ doc.filename }}</a>
             <span class="ml-1 text-dark">{{ doc.description }}</span></div>
         <div>
             <div class="badge badge-secondary ">{{ doc.uploaded_at }}</div>
-            {% if user.is_authenticated %}
+            {% if user.is_active %}
             <a href="/delete_document?id={{ doc.id }}"><img src="{% static "imgs/trash.svg" %}"></a>
             {% endif %}
         </div>
@@ -20,9 +20,9 @@
 </ul>
 {% endif %}
 
-{% if user.is_authenticated %}
+{% if user.is_active %}
 <h4 class="mt-4">Upload Document</h4>
-<form action="/document_upload/" method="post" enctype="multipart/form-data">
+<form action="/document_upload/" method="post" enctype="multipart/form-data" onsubmit="return loadingIcon(this)">
     {% csrf_token %}
     <input type="hidden" name="cat" value="{{ cat.id }}">
     <div class="form-group">
@@ -35,5 +35,6 @@
         <input type="text" class="form-control" name="description" id="id_description" maxlength="60">
     </div>
     <button type="submit" class="btn btn-primary">Upload</button>
+    <img src="{% static "imgs/loading.gif" %}" width="50px" height="50px" class="loading-icon" style="visibility: hidden">
 </form>
 {% endif %}

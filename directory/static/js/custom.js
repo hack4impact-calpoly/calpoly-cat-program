@@ -45,3 +45,8 @@ $('#search').keyup(function() {
     for (let i = show.length / 2; i < show.length; i++)
         $(show[i]).closest("li").attr('style','');
 });
+
+function loadingIcon(form) {
+    form.querySelector(".loading-icon").style.visibility = "visible";
+    return true;
+}

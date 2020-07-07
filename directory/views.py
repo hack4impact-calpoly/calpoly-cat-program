@@ -10,8 +10,15 @@ from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm
 from .models import Cat, Document, Photo, Event
 
 def index(request):
-    photos = Photo.objects.filter(cat_id=OuterRef('id'), hidden=False)
-    cats = Cat.objects.all().annotate(photo=Subquery(photos.values('photo')))
+    cats = Cat.objects.all()
+    photos = Photo.objects.filter(hidden=False).order_by('-uploaded_at')
+
+    # using subquerys does not return full URL. needed for AWS hosting
+    cat_photos = {}
+    photo_desc = {}
+    for photo in photos:
+        cat_photos[photo.cat_id] = photo.photo.url
+        photo_desc[photo.cat_id] = photo.description
 
     current_time = datetime.datetime.now()
     start_date = current_time - datetime.timedelta(hours=12)
@@ -19,7 +26,7 @@ def index(request):
     names = Cat.objects.filter(id=Cast(OuterRef('cat_id'), IntegerField()))
     events = Event.objects.filter(hidden=False, date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
 
-    return render(request, 'landing.html', {'cats': cats, 'events': events})
+    return render(request, 'landing.html', {'cats': cats, 'events': events, 'photos': cat_photos, 'photo_desc': photo_desc})
 
 def cat_profile(request):
     cat_id = request.GET.get('id')
@@ -66,7 +73,7 @@ def events(request):
         'htitle': "Events ({0}-{1})".format(month, year%100)})
 
 def single_event(request):
-    if request.method == 'POST' and request.user.is_authenticated and request.POST.get('event_id') is None:
+    if request.method == 'POST' and request.user.is_active and request.POST.get('event_id') is None:
         form = EventForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -79,7 +86,7 @@ def single_event(request):
                     notes = data.get('notes'))
             event.save()
             return redirect('/event/?id=' + str(event.id))
-    if request.method == 'POST' and request.user.is_authenticated and request.POST.get('event_id') is not None:
+    if request.method == 'POST' and request.user.is_active and request.POST.get('event_id') is not None:
         form = EventForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -91,14 +98,15 @@ def single_event(request):
                     time = data.get('time'),
                     notes = data.get('notes'))
             return redirect('/event/?id=' + str(request.POST.get('event_id')))
-    if request.GET.get('action') == 'add' and request.user.is_authenticated:
+    if request.GET.get('action') == 'add' and request.user.is_active:
         form = EventForm()
         cats = Cat.objects.all()
         return render(request, 'add_event.html', {'form': form, 'cats': cats, 'htitle': "Create Event"})
     if request.GET.get('id') is not None:
         e_id = request.GET.get('id')
         event = get_object_or_404(Event, id=e_id)
-        cat = Cat.objects.get(id=Cast(event.cat_id, IntegerField()))
+        # c_id = Cast(event.cat_id, IntegerField())
+        cat = Cat.objects.get(id=event.cat_id)
         if request.GET.get('action') == 'edit':
             cats = Cat.objects.all()
             return render(request, 'edit_event.html', {'event': event, 'cat': cat, 'cats': cats, 'htitle': "Edit: "+event.title})
@@ -107,7 +115,7 @@ def single_event(request):
     return redirect('/events/')
 
 def intake_form(request):
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST' and request.user.is_active:
         form = IntakeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -135,13 +143,13 @@ def intake_form(request):
 
             cat.save()
             return HttpResponseRedirect('/cat/?id=' + str(cat.id))
-    elif request.user.is_authenticated:
+    elif request.user.is_active:
         form = IntakeForm()
         return render(request, 'intake.html', {'form': form, 'htitle': "Intake Form"})
     return HttpResponseForbidden("Error 403: You are not authorized to view this page")
 
 def update_cat(request):
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST' and request.user.is_active:
         form = IntakeForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -173,13 +181,12 @@ def update_cat(request):
 def document_upload(request):
     cat_id = request.POST.get('cat')
     cat = Cat.objects.get(id=cat_id)
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST' and request.user.is_active:
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
             Document(cat_id = cat_id,
                document = data.get('document'),
-               name = request.FILES['document'].name,
                description = data.get('description')
             ).save()
     return redirect('/cat/?id=' + str(cat_id))
@@ -187,13 +194,12 @@ def document_upload(request):
 def photo_upload(request):
     cat_id = request.POST.get('cat_id')
     cat = Cat.objects.get(id=cat_id)
-    if request.method == 'POST' and request.user.is_authenticated:
+    if request.method == 'POST' and request.user.is_active:
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
             Photo(cat_id = cat_id,
                photo = data.get('photo'),
-               name = request.FILES['photo'].name,
                description = data.get('description') 
             ).save()
     return redirect('/cat/?id=' + str(cat_id))
@@ -201,20 +207,20 @@ def photo_upload(request):
 def delete_document(request):
     doc_id = request.GET.get('id')
     doc = Document.objects.filter(id=doc_id)
-    if request.user.is_authenticated:
+    if request.user.is_active:
         doc.update(hidden=True)
     return redirect('/cat/?id=' + str(doc[0].cat_id))
 
 def delete_photo(request):
     photo_id = request.GET.get('id')
     photo = Photo.objects.filter(id=photo_id)
-    if request.user.is_authenticated:
+    if request.user.is_active:
         photo.update(hidden=True)
     return redirect('/cat/?action=edit&id=' + str(photo[0].cat_id))
 
 def delete_event(request):
     event_id = request.GET.get('id')
     event = Event.objects.filter(id=event_id)
-    if request.user.is_authenticated:
+    if request.user.is_active:
         event.update(hidden=True)
     return redirect('/events/')
