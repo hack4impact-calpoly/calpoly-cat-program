@@ -1,5 +1,5 @@
 {% extends 'base.html' %}{% load static %}
-{% load mathfilters %}
+{% load customtags %}
 {% block pageContent %}
 
 <header class="bg-primary text-dark">
@@ -9,7 +9,7 @@
     </div>
 </header>
 
-{% if user.is_authenticated %}
+{% if user.is_active %}
 <div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-lg-8 mx-auto">
@@ -55,8 +55,15 @@
                 <div class="grid-container" id="cat_grid" style="display:none !important"> 
                      {% for cat in cats %}
                      <div class="fake-card mb-3">
-                         {% if cat.photo is not None %}
-                         <img class="card-img-top" src="media/{{ cat.photo }}" alt="[cat picture]">
+                         {% if photos|get_item:cat.id is not None %}
+                         <img class="card-img-top" src="{{ photos|get_item:cat.id }}"
+                           {% if photo_desc|get_item:cat.id is not None %}
+                           alt="{{photo_desc|get_item:cat.id}}"
+                           {% else %}
+                           alt="picture of {{cat.name}}"
+                           {% endif %}
+                         >
+                         {{ cat.photo }}
                          {% endif %}
                          <a href="cat/?id={{ cat.id }}" class="text-decoration-none text-dark">
                          <div class="card-body bg-primary">

@@ -24,12 +24,12 @@ class CatSerializer(serializers.HyperlinkedModelSerializer):
 class DocumentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Document
-        fields = ['document', 'name', 'description', 'uploaded_at']
+        fields = ['cat_id', 'document', 'description', 'uploaded_at', 'hidden']
         
 class PhotoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Photo 
-        fields = ['cat_id', 'photo', 'name', 'uploaded_at']
+        fields = ['cat_id', 'photo', 'description', 'uploaded_at', 'hidden']
         
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

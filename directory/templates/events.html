@@ -31,7 +31,7 @@
                 {% endfor %}
                 </ul>
 
-                {% if user.is_authenticated %}
+                {% if user.is_active %}
                 <div class="d-flex justify-content-end mt-2">
                     <a class="btn btn-primary" href="/event/?action=add">Add Event</a>
                 </div>

@@ -132,11 +132,11 @@
         {% for photo in photos %}
         <li class="list-group-item d-flex justify-content-between text-decoration-none">
              <div>
-                  <a href="{{ MEDIA_URL }}/media/{{ photo.photo }}" target="_blank">{{ photo.name }}</a>
+                  <a href="{{ photo.photo.url }}" target="_blank">{{ photo.filename }}</a>
                   <span class="ml-1 text-dark">{{ photo.description }}</span></div>
              <div>
                   <div class="badge badge-secondary ">{{ photo.uploaded_at }}</div>
-                  {% if user.is_authenticated %}
+                  {% if user.is_active %}
                   <a href="/delete_photo?id={{ photo.id }}"><img src="{% static "imgs/trash.svg" %}"></a>
                   {% endif %}
               </div>
