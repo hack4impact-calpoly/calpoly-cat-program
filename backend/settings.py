@@ -6,7 +6,6 @@ from decouple import config
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 SECRET_KEY = config('SECRET_KEY', default=os.environ.get('SECRET_KEY'))
 DEBUG = config('DEBUG', default=False, cast=bool)
 
@@ -30,7 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'multiselectfield',
-    'mathfilters',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -137,8 +136,20 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'directory/static'),
 )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# media storage
+if config('ISPROD', default=True, cast=bool):
+    # AWS File Storage - https://blog.theodo.com/2019/07/aws-s3-upload-django/
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default=os.environ.get('AWS_ACCESS_KEY_ID'))
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default=os.environ.get('AWS_SECRET_ACCESS_KEY'))
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_STORAGE_BUCKET_NAME = config('S3_BUCKET_NAME', default=os.environ.get('S3_BUCKET_NAME'))
+    AWS_S3_REGION_NAME = 'us-west-2'
+
+    AWS_DEFAULT_ACL = None
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 
 # Configure Django App for Heroku.
 django_heroku.settings(locals())

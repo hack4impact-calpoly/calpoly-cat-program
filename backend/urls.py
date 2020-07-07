@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from decouple import config
 
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
@@ -40,4 +41,7 @@ urlpatterns = [
 
     path('api/', include(router.urls)),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if not config('ISPROD', default=True, cast=bool):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,5 @@
 from django.db import models
+import os
 from datetime import date
 from multiselectfield import MultiSelectField
 
@@ -67,33 +68,40 @@ class Cat(models.Model):
     comments = models.TextField(null=True, blank=True)
     personal_exp = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name + " ({0}/{1})".format(self.age, self.gender)
+
 def upload_path(instance, filename):
-    return 'documents/cat_{0}/{1}'.format(instance.cat_id, filename)
+    return 'cat_{0}/docs/{1}'.format(instance.cat_id, filename)
 
 class Document(models.Model):
     cat_id = models.IntegerField()  # foreign keys are too difficult with custom path names
     document = models.FileField(upload_to=upload_path)
-    name = models.TextField()
     description = models.CharField(max_length=60, blank=True) 
     uploaded_at = models.DateTimeField(auto_now_add=True)
     hidden = models.BooleanField(default=False)
 
+    def filename(self):
+        return os.path.basename(self.document.name)
+
     def __str__(self):
-        return Cat.objects.get(id=self.cat_id).name + " - " + self.name + hidden_title(self.hidden)
+        return Cat.objects.get(id=self.cat_id).name + " - " + clean_file_name(self.document.name) + hidden_title(self.hidden)
     
 def photo_path(instance, filename):
-    return 'documents/cat_{0}/photos/{1}'.format(instance.cat_id, filename)
+    return 'cat_{0}/photos/{1}'.format(instance.cat_id, filename)
 
 class Photo(models.Model):
     cat_id = models.IntegerField()
     photo = models.FileField(upload_to=photo_path)
-    name = models.TextField()
     description = models.CharField(max_length=60, blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     hidden = models.BooleanField(default=False)
 
+    def filename(self):
+        return os.path.basename(self.photo.name)
+
     def __str__(self):
-        return Cat.objects.get(id=self.cat_id).name + " - " + self.name + hidden_title(self.hidden)
+        return Cat.objects.get(id=self.cat_id).name + " - " + clean_file_name(self.photo.name) + hidden_title(self.hidden)
 
 EVENT_TYPES = [
     ('vet', 'Vet Appointment'),
@@ -113,6 +121,10 @@ class Event(models.Model):
 
     def __str__(self):
         return Cat.objects.get(id=self.cat_id).name + " - " + self.title + hidden_title(self.hidden)
+
+def clean_file_name(fname):
+    fstart = fname.find('s/') # this is the end of the pre-built file name
+    return fname[fstart+2:]
 
 def hidden_title(hiddenField):
     return " [Hidden]" if (hiddenField) else ""
