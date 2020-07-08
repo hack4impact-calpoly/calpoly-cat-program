@@ -133,7 +133,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'directory/static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 # media storage
@@ -152,5 +152,5 @@ else:
     MEDIA_URL = '/media/'
 
 # Configure Django App for Heroku.
-django_heroku.settings(locals(), staticfiles=False, logging=False)
+django_heroku.settings(locals())
 
