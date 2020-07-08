@@ -23,8 +23,8 @@
         </select>
     </div>
     <div class="form-group required">
-        <label for="id_age">Age</label>
-        <input type="number" value="{{ cat.age }}" class="form-control" name="age" id="id_age" step="0.1" required>
+        <label for="id_birthday">Birthday</label>
+        <input type="date" value="{{ cat.birthday|date:'Y-m-d' }}" class="form-control" name="birthday" id="id_birthday" required>
     </div>
     <div class="form-group required">
         <label for="id_description">Description (color)</label>
@@ -74,15 +74,15 @@
     </div>
     <div class="form-group required">
         <label for="id_flea_control_date">Flea control, date applied</label>
-        <input type="date" value="{{ cat.flea_control_date|date:'yy-m-d' }}" class="form-control" name="flea_control_date" id="id_flea_control_date" required>
+        <input type="date" value="{{ cat.flea_control_date|date:'Y-m-d' }}" class="form-control" name="flea_control_date" id="id_flea_control_date" required>
     </div>
     <div class="form-group required">
         <label for="id_deworming_date">Deworming done on</label>
-        <input type="date" value="{{ cat.deworming_date|date:'yy-m-d' }}" class="form-control" name="deworming_date" id="id_deworming_date" required>
+        <input type="date" value="{{ cat.deworming_date|date:'Y-m-d' }}" class="form-control" name="deworming_date" id="id_deworming_date" required>
     </div>
     <div class="form-group required">
         <label for="id_fiv_felv_date">FIV-FELV, date tested</label>
-        <input type="date" value="{{ cat.fiv_felv_date|date:'yy-m-d' }}" class="form-control" name="fiv_felv_date" id="id_fiv_felv_date" required>
+        <input type="date" value="{{ cat.fiv_felv_date|date:'Y-m-d' }}" class="form-control" name="fiv_felv_date" id="id_fiv_felv_date" required>
     </div>
     <div class="form-group">
         <label for="id_special_needs">Special Needs (meds, diet, etc.)</label>

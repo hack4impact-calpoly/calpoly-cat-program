@@ -41,6 +41,10 @@ def cat_profile(request):
     return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents,
         'photos': photos, 'htitle': cat.name})
 
+def get_age(birthday):
+    today = datetime.date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
 def help(request):
     return render(request, 'help.html', {'htitle': "Help"})
 
@@ -156,7 +160,7 @@ def update_cat(request):
             Cat.objects.filter(id=request.POST.get('id')).update(
                     name = data.get('name'),
                     gender = data.get('gender'),
-                    age = data.get('age'),
+                    birthday = data.get('birthday'),
                     description = data.get('description'),
                     breed = data.get('breed'),
                     itype = data.get('itype'),
@@ -175,8 +179,7 @@ def update_cat(request):
                     comments = data.get('comments'),
                     personal_exp = data.get('personal_exp'))
             return HttpResponseRedirect('/cat/?id=' + request.POST.get('id'))
-    else:
-        return redirect('/')
+    return redirect('/')
 
 def document_upload(request):
     cat_id = request.POST.get('cat')

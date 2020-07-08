@@ -1,6 +1,6 @@
 from django.db import models
 import os
-from datetime import date
+from datetime import date, timedelta
 from multiselectfield import MultiSelectField
 
 # keep outside of Cat class for easy import
@@ -41,7 +41,7 @@ class Cat(models.Model):
         ('F', 'Female'),
     ]
     gender = models.CharField(max_length=2, choices=GENDERS) 
-    age = models.DecimalField(max_digits=4, decimal_places=1)
+    birthday = models.DateField()
     description = models.CharField(max_length=60) # basic description (color)
     breed = models.CharField(max_length=35)
 
@@ -68,8 +68,11 @@ class Cat(models.Model):
     comments = models.TextField(null=True, blank=True)
     personal_exp = models.TextField(null=True, blank=True)
 
+    def age(self):
+        return round((date.today() - self.birthday).days / 365, 2)
+
     def __str__(self):
-        return self.name + " ({0}/{1})".format(self.age, self.gender)
+        return self.name + " ({0}/{1})".format(self.age(), self.gender)
 
 def upload_path(instance, filename):
     return 'cat_{0}/docs/{1}'.format(instance.cat_id, filename)

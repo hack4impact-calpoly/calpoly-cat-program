@@ -42,7 +42,7 @@
     <div class="form-group">
         <label for="id_datetime">Appointment Date</label>
         <div class="d-flex">
-            <input type="date" class="form-control mr-3" name="date" id="id_datetime" required value="{{event.date|date:'yy-m-d'}}">
+            <input type="date" class="form-control mr-3" name="date" id="id_datetime" required value="{{event.date|date:'Y-m-d'}}">
             <input type="time" class="form-control ml-3" name="time" required value="{{event.time|date:'H:i'}}">
         </div>
     </div>
