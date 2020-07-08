@@ -6,7 +6,6 @@ __pychache__/
 db.sqlite3
 
 *.swp
-/staticfiles/
-!/staticfiles/IGNOREME
+staticfiles/
 media/
 .env
