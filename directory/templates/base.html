@@ -6,10 +6,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    {% if htitle is not None %}
+    <title>{{ htitle }} - CPCP Cat Directory</title>
+    {% else %}
     <title>CPCP Cat Directory</title>
+    {% endif %}
     <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "css/scrolling-nav.css" %}" rel="stylesheet">
     <link href="{% static "css/custom.css" %}" rel="stylesheet">
+
+    <link href="{% static "imgs/favicon.ico" %}" type="image/png" rel="shortcut icon">
 </head>
 <body id="page-top">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -20,16 +26,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#cats">Home</a></li>
-                {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/events">Events</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/intake">Intake</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                {% if user.is_active %}
+                <li class="nav-item"><a class="nav-link" href="/events">Events</a></li>
+                <li class="nav-item"><a class="nav-link" href="/intake">Intake</a></li>
                 {% endif %}
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/help">Help</a></li>
-                {% if not user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="/help">Help</a></li>
+                {% if user.is_superuser %}
+                <li class="nav-item"><a class="nav-link" href="/admin">Admin</a></li>
+                {% endif %}
+                {% if not user.is_active %}
+                <li class="nav-item"><a class="nav-link" href="/accounts/login">Login</a></li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/logout">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="/accounts/logout">Logout</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -40,7 +49,7 @@
 
 <footer class="py-5 bg-dark">
     <div class="container">
-        <p class="m-0 text-center text-white">Made with &#9829; by Hack4Impact CalPoly</p>
+        <p class="m-0 text-center text-white">Made with &#9829; by Hack4Impact - Cal Poly</p>
     </div>
 </footer>
 </body>

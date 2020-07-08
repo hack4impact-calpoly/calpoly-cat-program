@@ -6,6 +6,6 @@ __pychache__/
 db.sqlite3
 
 *.swp
-directory/migrations/*
 staticfiles/
 media/
+.env

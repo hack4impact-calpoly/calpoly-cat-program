@@ -1,57 +1,88 @@
 {% extends 'base.html' %}{% load static %}
 {% block pageContent %}
 
-<header class="bg-primary text-white">
+<header class="bg-primary text-dark">
     <div class="container text-center">
-        <h1>Help page</h1>
-        <p class="lead">email <a href="mailto:calpoly@hack4impact" class="text-white" target="_blank">
-        	calpoly@hack4impact.org</a> if this page<br>does not answer your question</p>
+        <h1>Help Page</h1>
+        <p class="lead">email <a href="mailto:calpoly@hack4impact" class="text-muted" target="_blank">
+        calpoly@hack4impact.org</a> if this page<br>does not answer your question</p>
     </div>
 </header>
 
-<section id="#search">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2>Table of contents</h2>
-                <p class="lead">Mobile (example)</p>
-                <ul>
-                    <li>adding new clients</li>
-                    <li>viewing client info</li>
-                    <li>searching for clients</li>
-                </ul>
-                <p class="lead">Web (example)</p>
-                <ul>
-                    <li>adding new clients</li>
-                    <li>viewing client info</li>
-                    <li>searching for clients</li>
-                    <li>exporting data</li>
-                </ul>
-            </div>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2>Table of contents</h2>
+            <p class="lead">Account Help</p>
+            <ul>
+                <li>I can't view certain pages</li>
+                <li>I forgot my password/I want to change my password</li>
+            </ul>
+            <p class="lead">Cat Help</p>
+            <ul>
+                <li>I accidentally deleted a document/photo/event that I still need</li>
+                <li>How do I delete a cat photo?</li>
+            </ul>
+            <p class="lead">Site Related</p>
+            <ul>
+                <li>I found something that needs fixing ASAP</li>
+                <li>I want to request a new idea for the site!</li>
+            </ul>
         </div>
     </div>
-</section>
+</div>
 
-<section id="#mobile" class="bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2>Mobile help</h2>
-                <p class="lead">help info to come soon</p>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="bg-light py-5">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2>Account Help</h2>
+            <p class="lead">I can't view certain pages</p>
+            <p>Many pages on this site are restricted to volunteers only. If you are a volunteer, please
+            <a href="/accounts/login/">login</a> or ask the volunteer coordinator to create an account for you.</p>
 
-<section id="#web">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <h2>Web help</h2>
-                <p class="lead">help info to come soon</p>
-            </div>
+            <p class="lead">I forgot my password/I want to change my password</p>
+            <p>If you forgot your password or want to change your current one, ask the volunteer coordinator
+            to make you a new one. They will be able to do this from their admin panel.</p>
         </div>
     </div>
-</section>
+</div>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2>Cat Help</h2>
+            <p class="lead">I accidentally deleted a document/photo/event that I still need</p>
+            <p>The volunteer coordinator should be able to manually retrieve this file from their admin panel.
+            You will need to tell them the cat name and file name or event that you are trying to recover, and
+            they will be able to un-delete that document/photo/event.</p>
+            
+            <p class="lead">How do I delete a cat photo?</li>
+            <p>While logged in as a volunteer, you can click on the "Update Info" button by the cat's name and scroll
+            down to the bottom of the page. Here, you can delete the photos you want to remove.</p>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h2>Site Related</h2>
+            <p class="lead">I found something that needs fixing ASAP</p>
+            <p>If you believe this is related to the functionality of the site (not cat related information), please
+            email <a href="mailto:calpoly@hack4impact.org">calpoly@hack4impact.org</a>! Please keep in mind, that we are
+            students maintaining and working on this project as well as many others, so be patient with us.
+
+            <p class="lead">I want to request a new idea for the site!</p>
+            <p>This site was made by Hack4Impact CalPoly, an on-campus non-profit run by students. While we would love to
+            implement every idea to make this site <strong>marvelous</strong>, we simply lack the hours in the day. If you
+            are code-savy, feel free to create a pull request on <a href="https://github.com/hack4impact-calpoly/calpoly-cat-program"
+            target="_blank">this projects GitHub repository</a> and we migh deploy it</p>
+        </div>
+    </div>
+</div>
+</div>
 
 {% endblock pageContent %}

@@ -14,7 +14,7 @@ class CatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Cat
         fields = [
-            'name', 'gender', 'age', 'description', 'breed', 'itype', 'status',
+            'name', 'gender', 'age', 'birthday', 'description', 'breed', 'itype', 'status',
             'arrival_date', 'arrival_details', 'medical_history', 'vaccinations',
             'is_microchipped', 'flea_control_date', 'deworming_date', 'fiv_felv_date', 
             'special_needs', 'personality', 'more_personality', 'comments', 
@@ -24,12 +24,12 @@ class CatSerializer(serializers.HyperlinkedModelSerializer):
 class DocumentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Document
-        fields = ['document', 'name', 'description', 'uploaded_at']
+        fields = ['cat_id', 'document', 'description', 'uploaded_at', 'hidden']
         
 class PhotoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Photo 
-        fields = ['cat_id', 'photo', 'name', 'uploaded_at']
+        fields = ['cat_id', 'photo', 'description', 'uploaded_at', 'hidden']
         
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

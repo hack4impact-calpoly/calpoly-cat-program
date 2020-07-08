@@ -1,17 +1,42 @@
 {% load static %}
-<h4>Photos<h4>
-<div class="container">
-    {% for pho in photos %}
-        <img src="{{ MEDIA_URL }}/media/{{ pho.photo}}" width="240">
-    {% endfor %}
-</div>
 
+{% if photos|length > 0 %}
+<div id="catImageCarousel" class="carousel slide mt-4" data-ride="carousel">
+    <div class="carousel-inner bg-light" style="height: 300px">
+        {% for photo in photos %}
+        <div class="carousel-item h-100 {% if forloop.counter0 == 0 %}active{% endif %}">
+            <img class="h-100 d-block mx-auto" src="{{ photo.photo.url }}" alt="{{ photo.description}}">
+        </div>
+        {% endfor %}
+    </div>
+ 
+    {% if photos|length > 1 %}
+    <a class="carousel-control-prev" href="#catImageCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next text-primary" href="#catImageCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon text-primary" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% if user.is_active %}
 <h4 class="mt-4">Upload Photo</h4>
-<form action="/photo_upload/" method="post" enctype="multipart/form-data">
+<form class="d-flex-inline" action="/photo_upload/" method="post" enctype="multipart/form-data" onsubmit="return loadingIcon(this)">
     {% csrf_token %}
-    <input type="hidden" name="cat" value="{{ cat.id }}">
+    <input type="hidden" name="cat_id" value="{{ cat.id }}">
     <div class="form-group">
+        <label for="id_photo">Photo: </label>
         <input type="file" name="photo" id="id_photo" required>
     </div>
+    <div class="form-group">
+        <label for="id_description">Description</label>
+        <input type="text" class="form-control" name="description" id="id_description" maxlength="60">
+    </div>
     <button type="submit" class="btn btn-primary">Upload</button>
+    <img src="{% static "imgs/loading.gif" %}" width="50px" height="50px" class="loading-icon" style="visibility: hidden">
 </form>
+{% endif %}

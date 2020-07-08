@@ -34,14 +34,19 @@ $('#search').keyup(function() {
     $("#result_count").text(show.length / 2);
 
     for (let i = 0; i < hide.length / 2; i++)
-        $(hide[i]).closest(".card").attr('style','display:none !important');
+        $(hide[i]).closest(".fake-card").attr('style','display:none !important');
 
     for (let i = hide.length / 2; i < hide.length; i++)
         $(hide[i]).closest("li").attr('style','display:none !important');
 
     for (let i = 0; i < show.length / 2; i++)
-        $(show[i]).closest(".card").attr('style','width:18rem');
+        $(show[i]).closest(".fake-card").attr('style', '');
 
     for (let i = show.length / 2; i < show.length; i++)
         $(show[i]).closest("li").attr('style','');
 });
+
+function loadingIcon(form) {
+    form.querySelector(".loading-icon").style.visibility = "visible";
+    return true;
+}

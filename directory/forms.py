@@ -8,7 +8,7 @@ class IntakeForm(forms.ModelForm):
     class Meta:
         model = Cat
         fields = [
-            'name', 'gender', 'age', 'description', 'breed', 'itype', 'status',
+            'name', 'gender', 'birthday', 'description', 'breed', 'itype', 'status',
             'arrival_date', 'arrival_details', 'medical_history', 'vaccinations',
             'is_microchipped', 'flea_control_date', 'deworming_date', 'fiv_felv_date', 
             'special_needs', 'personality', 'more_personality', 'comments', 
@@ -19,7 +19,7 @@ class EditForm(forms.ModelForm):
     class Meta:
         model = Cat
         fields = [
-            'name', 'gender', 'age', 'description', 'breed', 'itype', 'status',
+            'name', 'gender', 'birthday', 'description', 'breed', 'itype', 'status',
             'arrival_date', 'arrival_details', 'medical_history', 'vaccinations',
             'is_microchipped', 'flea_control_date', 'deworming_date', 'fiv_felv_date', 
             'special_needs', 'personality', 'more_personality', 'comments', 
@@ -35,7 +35,7 @@ class DocumentForm(forms.ModelForm):
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ['photo']
+        fields = ['photo', 'description']
 
 class EventForm(forms.ModelForm):
     class Meta:

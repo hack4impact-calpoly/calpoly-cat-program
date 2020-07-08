@@ -1,88 +1,92 @@
 {% extends 'single_form.html' %}{% load static %}
 {% block formContent %}
 
+{% if save is not None %}
+<h2>{{ save.title }}</h2>
+<form action="/edit_profile/" method="post">
+<input type="hidden" value="{{ cat.id }}" name="id" />
+{% else %}
 <h2>Intake Form</h2>
 <form action="/intake/" method="post">
+{% endif %}
     {% csrf_token %}
-    <div class="form-group">
-        <label for="id_name">Pet's Name<span style="color:red;">*</span></label>
-        <input value={{ cat.name }} type="text" class="form-control" name="name" id="id_name" maxlength="50" required>
+    <div class="form-group required">
+        <label for="id_name">Pet's Name</label>
+        <input type="text" value="{{ cat.name }}" class="form-control" name="name" id="id_name" maxlength="50" required>
     </div>
-    <div class="form-group">
-        <label for="id_gender">Gender<span style="color:red;">*</span></label>
+    <div class="form-group required">
+        <label for="id_gender">Gender</label>
         <select class="form-control" name="gender" id="id_gender" required>
-            <option value="" selected disabled hidden>Select gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
+            <option value="" {% if not cat.gender %}selected{% endif %} disabled hidden>Select gender</option>
+            <option value="M" {% if cat.gender == "M" %}selected{% endif %}>Male</option>
+            <option value="F" {% if cat.gender == "F" %}selected{% endif %}>Female</option>
         </select>
     </div>
-    <div class="form-group">
-        <label for="id_age">Age<span style="color:red;">*</span></label>
-        <input type="number" class="form-control" name="age" id="id_age" step="0.1" required>
+    <div class="form-group required">
+        <label for="id_birthday">Birthday</label>
+        <input type="date" value="{{ cat.birthday|date:'Y-m-d' }}" class="form-control" name="birthday" id="id_birthday" required>
     </div>
-    <div class="form-group">
-        <label for="id_description">Description (color)<span style="color:red;">*</span></label>
-        <input type="text" class="form-control" name="description" id="id_description" maxlength="60" required>
+    <div class="form-group required">
+        <label for="id_description">Description (color)</label>
+        <input type="text" value="{{ cat.description }}" class="form-control" name="description" id="id_description" maxlength="60" required>
     </div>
-    <div class="form-group">
-        <label for="id_breed">Breed<span style="color:red;">*</span></label>
-        <input type="text" class="form-control" name="breed" id="id_breed" maxlength="35" required>
+    <div class="form-group required">
+        <label for="id_breed">Breed</label>
+        <input type="text" value="{{ cat.breed }}" class="form-control" name="breed" id="id_breed" maxlength="35" required>
     </div>
-    <div class="form-group">
-        <label for="id_itype">Type<span style="color:red;">*</span></label>
+    <div class="form-group required">
+        <label for="id_itype">Type</label>
         <select class="form-control" name="itype" id="id_itype" required>
-            <option value="" selected disabled hidden>Select type</option>
-            <option value="DSH">DSH</option>
-            <option value="DMH">DMH</option>
-            <option value="DLH">DLH</option>
+            <option value="" {% if not cat.itype %}selected{% endif %} disabled hidden>Select type</option>
+            <option value="DSH" {% if cat.itype == "DSH" %}selected{% endif %}>DSH</option>
+            <option value="DMH" {% if cat.itype == "DMH" %}selected{% endif %}>DMH</option>
+            <option value="DLH" {% if cat.itype == "DLH" %}selected{% endif %}>DLH</option>
         </select>
     </div>
-    <div class="form-group">
-        <label for="id_status">Status<span style="color:red;">*</span></label>
+    <div class="form-group required">
+        <label for="id_status">Status</label>
         <select class="form-control" name="status" id="id_status" required>
-            <option value="" selected disabled hidden>Select type</option>
-            <option value="adopt">For Adoption</option>
-            <option value="temp">Temporary</option>
-            <option value="perm">Permanent</option>
+            <option value="" {% if not cat.status %}selected{% endif %} disabled hidden>Select type</option>
+            <option value="adopt" {% if cat.status == "adopt" %}selected{% endif %}>For Adoption</option>
+            <option value="temporary" {% if cat.status == "temporary" %}selected{% endif %}>Temporary</option>
+            <option value="permanent" {% if cat.status == "permanent" %}selected{% endif %}>Permanent</option>
         </select>
     </div>
-    <div class="form-group">
-
-        <label for="id_arrival_date">Arrival Date<span style="color:red;">*</span></label>
-        <input type="date" class="form-control" name="arrival_date" id="id_arrival_date" required>
+    <div class="form-group required">
+        <label for="id_arrival_date">Arrival Date</label>
+        <input type="date" value="{{ cat.arrival_date|date:'yy-m-d' }}" class="form-control" name="arrival_date" id="id_arrival_date" required>
     </div>
-    <div class="form-group">
-        <label for="id_arrival_details">Arrival Details (reason coming to shelter)<span style="color:red;">*</span></label>
-        <textarea class="form-control" id="id_arrival_details" name="arrival_details" required rows="3"></textarea>
+    <div class="form-group required">
+        <label for="id_arrival_details">Arrival Details (reason coming to shelter)</label>
+        <textarea class="form-control" id="id_arrival_details" name="arrival_details" required rows="3">{{ cat.arrival_details }}</textarea>
     </div>
-    <div class="form-group">
-        <label for="id_medical_history">Brief Medical History<span style="color:red;">*</span></label>
-        <textarea class="form-control" id="id_medical_history" name="medical_history" required rows="3"></textarea>
+    <div class="form-group required">
+        <label for="id_medical_history">Brief Medical History</label>
+        <textarea class="form-control" id="id_medical_history" name="medical_history" required rows="3">{{ cat.medical_history }}</textarea>
     </div>
-    <div class="form-group">
-        <label for="id_vaccinations">Vaccinations<span style="color:red;">*</span></label>
-        <textarea class="form-control" id="id_vaccinations" name="vaccinations" required rows="3"></textarea>
+    <div class="form-group required">
+        <label for="id_vaccinations">Vaccinations</label>
+        <textarea class="form-control" id="id_vaccinations" name="vaccinations" required rows="3">{{ cat.vaccinations }}</textarea>
     </div>
     <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="id_is_microchipped" name="is_microchipped">
-        <label class="form-check-label" for="id_is_microchipped">Microchipped</label>
+        <input type="checkbox" class="form-check-input" id="id_is_microchipped" name="is_microchipped" {% if cat.is_microchipped %}checked{% endif %}>
+        <label class="form-check-label" for="id_is_microchipped">Is microchipped?</label>
     </div>
-    <div class="form-group">
-        <label for="id_flea_control_date">Flea control, date applied<span style="color:red;">*</span></label>
-        <input type="date" class="form-control" name="flea_control_date" id="id_flea_control_date" required>
+    <div class="form-group required">
+        <label for="id_flea_control_date">Flea control, date applied</label>
+        <input type="date" value="{{ cat.flea_control_date|date:'Y-m-d' }}" class="form-control" name="flea_control_date" id="id_flea_control_date" required>
     </div>
-    <div class="form-group">
-        <label for="id_deworming_date">Deworming done on<span style="color:red;">*</span></label>
-        <input type="date" class="form-control" name="deworming_date" id="id_deworming_date" required>
+    <div class="form-group required">
+        <label for="id_deworming_date">Deworming done on</label>
+        <input type="date" value="{{ cat.deworming_date|date:'Y-m-d' }}" class="form-control" name="deworming_date" id="id_deworming_date" required>
     </div>
-    <div class="form-group">
-        <label for="id_fiv_felv_date">FIV-FELV, date tested<span style="color:red;">*</span></label>
-
-        <input type="date" class="form-control" name="fiv_felv_date" id="id_fiv_felv_date" required>
+    <div class="form-group required">
+        <label for="id_fiv_felv_date">FIV-FELV, date tested</label>
+        <input type="date" value="{{ cat.fiv_felv_date|date:'Y-m-d' }}" class="form-control" name="fiv_felv_date" id="id_fiv_felv_date" required>
     </div>
     <div class="form-group">
         <label for="id_special_needs">Special Needs (meds, diet, etc.)</label>
-        <textarea class="form-control" id="id_special_needs" name="special_needs" rows="3"></textarea>
+        <textarea class="form-control" id="id_special_needs" name="special_needs" rows="3">{{ cat.special_needs }}</textarea>
     </div>
 
     <label>Choose the characteristics that best describe the cat's personality and traits</label>
@@ -94,7 +98,8 @@
         <div class="col">
             {% endif %}
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="{{ form.personality.name }}" value="{{ val }}" id="id_personality_{{ forloop.counter }}">
+                <input class="form-check-input" type="checkbox" name="{{ form.personality.name }}"
+                  value="{{ val }}" id="id_personality_{{ forloop.counter }}" {% if val|stringformat:"i" in cat.personality %}checked{% endif %}>
                 <label class="form-check-label" for="id_personality_{{ forloop.counter }}">{{ text }}</label>
             </div>
             {% endfor %}
@@ -103,17 +108,42 @@
 
     <div class="form-group">
         <label for="id_more_personality">Additional traits</label>
-        <textarea class="form-control" id="id_more_personality" name="more_personality" rows="3"></textarea>
+        <textarea class="form-control" id="id_more_personality" name="more_personality" rows="3">{{ cat.more_personality }}</textarea>
     </div>
     <div class="form-group">
         <label for="id_comments">Comments</label>
-        <textarea class="form-control" id="id_comments" name="comments" rows="4"></textarea>
+        <textarea class="form-control" id="id_comments" name="comments" rows="4">{{ cat.comments }}</textarea>
     </div>
     <div class="form-group">
         <label for="id_personal_exp">Personal experiences with the cat</label>
-        <textarea class="form-control" id="id_personal_exp" name="personal_exp" rows="4"></textarea>
+        <textarea class="form-control" id="id_personal_exp" name="personal_exp" rows="4">{{ cat.personal_exp }}</textarea>
     </div>
+    {% if save is not None %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    {% else %}
     <button type="submit" class="btn btn-primary">Submit</button>
+    {% endif %}
 </form>
+
+{% if photos and photos|length != 0 %}
+<div class="pt-4">
+    <h3>Photos</h3>
+    <ul class="list-group list-group-flush">
+        {% for photo in photos %}
+        <li class="list-group-item d-flex justify-content-between text-decoration-none">
+             <div>
+                  <a href="{{ photo.photo.url }}" target="_blank">{{ photo.filename }}</a>
+                  <span class="ml-1 text-dark">{{ photo.description }}</span></div>
+             <div>
+                  <div class="badge badge-secondary ">{{ photo.uploaded_at }}</div>
+                  {% if user.is_active %}
+                  <a href="/delete_photo?id={{ photo.id }}"><img src="{% static "imgs/trash.svg" %}"></a>
+                  {% endif %}
+              </div>
+         </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
 
 {% endblock formContent %}
