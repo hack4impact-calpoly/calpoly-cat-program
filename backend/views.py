@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class CatViewSet(viewsets.ModelViewSet):
     queryset = Cat.objects.filter(hidden=False)
     serializer_class = CatSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = Cat.objects.filter(hidden=False)
