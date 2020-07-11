@@ -67,12 +67,16 @@ class Cat(models.Model):
     more_personality = models.TextField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
     personal_exp = models.TextField(null=True, blank=True)
+    hidden = models.BooleanField(default=False)
 
     def age(self):
         return round((date.today() - self.birthday).days / 365, 2)
 
     def __str__(self):
-        return self.name + " ({0}/{1})".format(self.age(), self.gender)
+        return self.name + " ({0}/{1}){2}".format(self.age(), self.gender, hidden_title(self.hidden))
+    
+    class Meta:
+        ordering = ["id"]
 
 def upload_path(instance, filename):
     return 'cat_{0}/docs/{1}'.format(instance.cat_id, filename)

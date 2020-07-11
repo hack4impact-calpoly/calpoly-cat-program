@@ -10,7 +10,7 @@ from .forms import IntakeForm, DocumentForm, EventForm, PhotoForm
 from .models import Cat, Document, Photo, Event
 
 def index(request):
-    cats = Cat.objects.all()
+    cats = Cat.objects.filter(hidden=False)
     photos = Photo.objects.filter(hidden=False).order_by('-uploaded_at')
 
     # using subquerys does not return full URL. needed for AWS hosting
@@ -30,7 +30,7 @@ def index(request):
 
 def cat_profile(request):
     cat_id = request.GET.get('id')
-    cat = get_object_or_404(Cat, id=cat_id)
+    cat = get_object_or_404(Cat, id=cat_id, hidden=False)
     photos = Photo.objects.filter(hidden=False, cat_id=cat_id)
     if request.GET.get('action') == "edit":
         form = IntakeForm()
@@ -104,7 +104,7 @@ def single_event(request):
             return redirect('/event/?id=' + str(request.POST.get('event_id')))
     if request.GET.get('action') == 'add' and request.user.is_active:
         form = EventForm()
-        cats = Cat.objects.all()
+        cats = Cat.objects.filter(hidden=False)
         return render(request, 'add_event.html', {'form': form, 'cats': cats, 'htitle': "Create Event"})
     if request.GET.get('id') is not None:
         e_id = request.GET.get('id')
