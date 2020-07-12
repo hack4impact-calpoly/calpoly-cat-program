@@ -54,7 +54,7 @@
     </div>
     <div class="form-group required">
         <label for="id_arrival_date">Arrival Date</label>
-        <input type="date" value="{{ cat.arrival_date|date:'yy-m-d' }}" class="form-control" name="arrival_date" id="id_arrival_date" required>
+        <input type="date" value="{{ cat.arrival_date|date:'Y-m-d' }}" class="form-control" name="arrival_date" id="id_arrival_date" required>
     </div>
     <div class="form-group required">
         <label for="id_arrival_details">Arrival Details (reason coming to shelter)</label>

@@ -144,7 +144,7 @@ if config('ISPROD', default=True, cast=bool):
 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_STORAGE_BUCKET_NAME = config('S3_BUCKET_NAME', default=os.environ.get('S3_BUCKET_NAME'))
-    AWS_S3_REGION_NAME = 'us-west-2'
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default=os.environ.get('AWS_S3_REGION_NAME'))
 
     AWS_DEFAULT_ACL = None
 else:
