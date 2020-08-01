@@ -18,12 +18,13 @@
                     {% endif %}
                 {% endfor %}
                 </ul>
+
                 <ul class="list-group">
                 {% for event in events %}
                     <li class="list-group-item" data-toggle="collapse" data-target="#e{{event.id}}">
                         <div class="d-flex justify-content-between">
                             <span><a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
-                                {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a></span>
+                                {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {% if event.name == None %}Volunteers{% else %}{{ event.name }}{% endif %} | {{ event.title }}</a></span>
                             <span><span class="badge badge-primary">{{ event.event_type }}</span></span>
                         </div>
                         <div id="e{{event.id}}" class="collapse mt-2 ml-4">{{ event.notes }}</div>
