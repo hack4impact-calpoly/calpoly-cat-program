@@ -39,8 +39,12 @@ def cat_profile(request):
         form = IntakeForm()
         save = {'title': "Edit "+cat.name+"'s Profile", 'link': '/update_cat/'}
         return render(request, 'intake.html', {'cat': cat, 'form': form, 'save': save, 'photos': photos})
+
     document_form = DocumentForm()
     documents = Document.objects.filter(hidden=False, cat_id=cat_id)
+    if not request.user.is_active:
+        documents = documents.exclude(public=False)
+
     return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents,
         'photos': photos, 'htitle': cat.name})
 

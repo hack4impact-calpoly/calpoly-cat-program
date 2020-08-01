@@ -86,6 +86,7 @@ class Document(models.Model):
     document = models.FileField(upload_to=upload_path)
     description = models.CharField(max_length=60, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    public = models.BooleanField(default=True)
     hidden = models.BooleanField(default=False)
 
     def filename(self):
