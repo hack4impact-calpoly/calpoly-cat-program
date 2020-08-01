@@ -43,31 +43,32 @@
 
 /* colors + accessibility tweaks */
 .bg-dark {
-    background-color: #15759b !important;
+    background-color: #415430 !important;
 }
 
 .bg-primary {
-    background-color: #a7d6e5 !important;
+    background-color: #dce9d2 !important;
 }
 
 .badge-primary {
-    background-color: #15759b !important;
+    background-color: #5b7746 !important;
 }
 
 .btn-primary {
-    background-color: #15759b !important;
-    border-color: #15759b !important;
+    background-color: #5b7746 !important;
+    border-color: #4d643a !important;
 }
 
 .page-link {
-    color: #15759b !important;
-
+    color: #444 !important;
 }
+
 .page-item.active .page-link {
-    background-color: #15759b !important;
-    border-color: #15759b !important;
+    background-color: #5b7746 !important;
+    border-color: #4d643a !important;
     color: #fff !important;
 }
+
 .nav-link {
     color: rgba(255, 255, 255, .8) !important;
 }
