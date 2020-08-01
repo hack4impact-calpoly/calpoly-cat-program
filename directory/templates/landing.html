@@ -20,7 +20,7 @@
                 <li class="list-group-item" data-toggle="collapse" data-target="#e{{event.id}}">
                     <div class="d-flex justify-content-between">
                         <span><a class="text-dark text-decoration-none" href="/event/?id={{event.id}}">
-                            {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {{ event.name }} | {{ event.title }}</a></span>
+                            {{ event.date|date:'M j' }} - {{ event.time|date:'h:ia'}} | {% if event.name == None %}Volunteers{% else %}{{ event.name }}{% endif %} | {{ event.title }}</a></span>
                         <span><span class="badge badge-primary">{{ event.event_type }}</span></span>
                     </div>
                     <div id="e{{event.id}}" class="collapse mt-2 ml-4">{{ event.notes }}</div>
@@ -44,15 +44,15 @@
                     <span class="lead">results: <span id="result_count">{{ cats.count }}</span></span>
                     <span class="btn-group btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-secondary active">
-                            <input type="radio" name="layout" id="list" checked> List 
+                            <input type="radio" name="layout" id="list" checked> List
                         </label>
                         <label class="btn btn-secondary">
-                            <input type="radio" name="layout" id="grid"> Grid 
+                            <input type="radio" name="layout" id="grid"> Grid
                         </label>
                     </span>
                 </div>
 
-                <div class="grid-container" id="cat_grid" style="display:none !important"> 
+                <div class="grid-container" id="cat_grid" style="display:none !important">
                      {% for cat in cats %}
                      <div class="fake-card mb-3">
                          {% if photos|get_item:cat.id is not None %}

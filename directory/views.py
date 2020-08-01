@@ -24,7 +24,10 @@ def index(request):
     start_date = current_time - datetime.timedelta(hours=12)
     end_date = current_time + datetime.timedelta(days=10)
     names = Cat.objects.filter(id=Cast(OuterRef('cat_id'), IntegerField()))
-    events = Event.objects.filter(hidden=False, date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name')))
+    events = Event.objects.filter(hidden=False, date__range=(start_date, end_date)).annotate(name=Subquery(names.values('name'))).order_by('date', 'time')
+
+    if not request.user.is_superuser:
+        events = events.exclude(event_type='vet')
 
     return render(request, 'landing.html', {'cats': cats, 'events': events, 'photos': cat_photos, 'photo_desc': photo_desc})
 
@@ -36,8 +39,12 @@ def cat_profile(request):
         form = IntakeForm()
         save = {'title': "Edit "+cat.name+"'s Profile", 'link': '/update_cat/'}
         return render(request, 'intake.html', {'cat': cat, 'form': form, 'save': save, 'photos': photos})
+
     document_form = DocumentForm()
     documents = Document.objects.filter(hidden=False, cat_id=cat_id)
+    if not request.user.is_active:
+        documents = documents.exclude(public=False)
+
     return render(request, 'cat_profile.html', {'cat': cat, 'document_form': document_form, 'documents': documents,
         'photos': photos, 'htitle': cat.name})
 
@@ -58,7 +65,7 @@ def events(request):
         year = int(request.GET.get('y'))
 
     start = datetime.date(year, month, 1)
-    end = start + datetime.timedelta(days=calendar.monthrange(year, month)[1])
+    end = start + datetime.timedelta(days=calendar.monthrange(year, month)[1] - 1)
 
     dates = []
     for i in range(-2, 3):
@@ -72,7 +79,11 @@ def events(request):
     names = Cat.objects.filter(id=Cast(OuterRef('cat_id'), IntegerField()))
     events = Event.objects.filter(hidden=False, date__range=(start, end)).annotate(
                name=Subquery(names.values('name'))).order_by('date', 'time')
-    
+
+    # volunteers are not able to see vet appointments
+    if not request.user.is_superuser:
+        events = events.exclude(event_type='vet')
+
     return render(request, 'events.html', {'events': events, 'dates': dates, 'names': names,
         'htitle': "Events ({0}-{1})".format(month, year%100)})
 
@@ -90,6 +101,7 @@ def single_event(request):
                     notes = data.get('notes'))
             event.save()
             return redirect('/event/?id=' + str(event.id))
+
     if request.method == 'POST' and request.user.is_active and request.POST.get('event_id') is not None:
         form = EventForm(request.POST)
         if form.is_valid():
@@ -102,17 +114,30 @@ def single_event(request):
                     time = data.get('time'),
                     notes = data.get('notes'))
             return redirect('/event/?id=' + str(request.POST.get('event_id')))
+
     if request.GET.get('action') == 'add' and request.user.is_active:
         form = EventForm()
         cats = Cat.objects.filter(hidden=False)
         return render(request, 'add_event.html', {'form': form, 'cats': cats, 'htitle': "Create Event"})
-    if request.GET.get('id') is not None:
+
+    if request.GET.get('id') is not None and request.user.is_active:
         e_id = request.GET.get('id')
         event = get_object_or_404(Event, id=e_id)
+
+        # no vet appts for volunteers
+        if not request.user.is_superuser and event.event_type == 'vet':
+            return redirect('/events/')
+
         # c_id = Cast(event.cat_id, IntegerField())
-        cat = Cat.objects.get(id=event.cat_id)
+
+        cat = None
+        if event.cat_id == "0":
+            cat = {'id': "0", 'name': "Volunteers"}
+        else:
+            cat = Cat.objects.get(id=event.cat_id)
+
         if request.GET.get('action') == 'edit':
-            cats = Cat.objects.all()
+            cats = Cat.objects.filter(hidden=False)
             return render(request, 'edit_event.html', {'event': event, 'cat': cat, 'cats': cats, 'htitle': "Edit: "+event.title})
         return render(request, 'event.html', {'event': event, 'cat': cat, 'htitle': event.title })
 
@@ -203,7 +228,7 @@ def photo_upload(request):
             data = form.cleaned_data
             Photo(cat_id = cat_id,
                photo = data.get('photo'),
-               description = data.get('description') 
+               description = data.get('description')
             ).save()
     return redirect('/cat/?id=' + str(cat_id))
 
