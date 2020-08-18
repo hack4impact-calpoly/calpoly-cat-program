@@ -43,20 +43,25 @@
 
 /* colors + accessibility tweaks */
 .bg-dark {
-    background-color: #415430 !important;
+    background-color: #154734 !important;
 }
 
 .bg-primary {
-    background-color: #dce9d2 !important;
+    background-color: #B6CCC2 !important;
+}
+
+.bg-secondary {
+    background-color: #E4E1D1 !important;
 }
 
 .badge-primary {
-    background-color: #5b7746 !important;
+    background-color: #BD8B13 !important;
 }
 
 .btn-primary {
-    background-color: #5b7746 !important;
-    border-color: #4d643a !important;
+    background-color: #ABCAE9 !important;
+    border-color: #8E9089 !important;
+    color: #333 !important;
 }
 
 .page-link {
@@ -64,9 +69,9 @@
 }
 
 .page-item.active .page-link {
-    background-color: #5b7746 !important;
-    border-color: #4d643a !important;
-    color: #fff !important;
+    background-color: #ABCAE9 !important;
+    border-color: #8E9089 !important;
+    color: #222 !important;
 }
 
 .nav-link {

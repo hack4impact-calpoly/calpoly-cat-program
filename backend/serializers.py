@@ -32,9 +32,10 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['cat_id', 'photo', 'description', 'uploaded_at', 'hidden']
         
 class EventSerializer(serializers.HyperlinkedModelSerializer):
+    name = serializers.CharField()
     class Meta:
         model = Event 
-        fields = ['cat_id', 'event_type', 'title', 'date', 'time', 'notes']
+        fields = ['cat_id', 'name', 'event_type', 'title', 'date', 'time', 'notes']
 
 # Serializer for adding User to Database this will be used for admins. We need to use User model for authentication
 class UserSerializer(serializers.HyperlinkedModelSerializer):

@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User, Group
+from django.db.models import OuterRef, Subquery, CharField
+from django.db.models.functions import Cast
 
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
@@ -50,10 +52,11 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Event.objects.filter(hidden=False)
+        names = Cat.objects.annotate(id_string=Cast('id', CharField())).filter(id_string=OuterRef('cat_id'))
+        queryset = Event.objects.filter(hidden=False).annotate(name=Subquery(names.values('name')))
 
         if not self.request.user.is_superuser:
             queryset = queryset.exclude(event_type='vet')
