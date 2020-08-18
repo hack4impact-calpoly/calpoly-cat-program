@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from django.db.models import OuterRef, Subquery
 
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
@@ -53,7 +54,8 @@ class EventViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = Event.objects.filter(hidden=False)
+        names = Cat.objects.filter(id=OuterRef('cat_id'))
+        queryset = Event.objects.filter(hidden=False).annotate(name=Subquery(names.values('name')))
 
         if not self.request.user.is_superuser:
             queryset = queryset.exclude(event_type='vet')
