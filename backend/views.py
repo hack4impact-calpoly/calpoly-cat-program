@@ -52,7 +52,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
 class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         names = Cat.objects.annotate(id_string=Cast('id', CharField())).filter(id_string=OuterRef('cat_id'))
