@@ -151,7 +151,7 @@ def intake_form(request):
             cat = Cat(
                     name = data.get('name'),
                     gender = data.get('gender'),
-                    age = data.get('age'),
+                    birthday = data.get('birthday'),
                     description = data.get('description'),
                     breed = data.get('breed'),
                     itype = data.get('itype'),
