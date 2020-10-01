@@ -1,2 +1,0 @@
-this file is for heroku because django won't automatically
-create this directory while running on the server

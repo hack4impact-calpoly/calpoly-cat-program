@@ -135,7 +135,8 @@ class Event(models.Model):
     hidden = models.BooleanField(default=False)
 
     def __str__(self):
-        return Cat.objects.get(id=self.cat_id).name + " - " + self.title + hidden_title(self.hidden)
+        cat = "Volunteers" if self.cat_id == '0' else Cat.objects.get(id=self.cat_id).name
+        return cat + " - " + self.title + hidden_title(self.hidden)
 
     class Meta:
         ordering = ["date", "time"]
