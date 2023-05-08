@@ -63,7 +63,7 @@ class Cat(models.Model):
     deworming_date = models.DateField()
     fiv_felv_date = models.DateField()
     special_needs = models.TextField(null=True, blank=True)
-    personality = MultiSelectField(choices=PERSONALITY)
+    personality = MultiSelectField(choices=PERSONALITY, max_choices=25, max_length=25)
     more_personality = models.TextField(null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
     personal_exp = models.TextField(null=True, blank=True)
