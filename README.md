@@ -23,10 +23,11 @@ There is also an accompanying mobile app for this site! The repository can be [f
 The web portion of this application was made in Django. The following will assume you have Python, Django, and pip installed.
 
 1. Clone the repo `git clone https://github.com/hack4impact-calpoly/calpoly-cat-program`
-2. Move into that directory `cd calpoly-cat-program` and install the dependancies `pip install -r requirements.txt`
-3. Configure the environment variables in `.defaultenv` and rename it to `.env`
-4. From the command line, run `python manage.py migrate`, then `python manage.py runserver`
-5. Hopefully the site is up and you can visit it at [localhost:8000](http://localhost:8000)
+2. Install postgresql &nbsp;&nbsp; [ [Mac OS](https://www.postgresql.org/download/macosx/) | [Windows](https://www.postgresql.org/download/windows/) |  [Linux](https://www.postgresql.org/download/linux/) ]
+3. Move into the directory by using `cd calpoly-cat-program` and install the dependancies `pip install -r requirements.txt`
+4. Configure the environment variables in `.defaultenv` and rename it to `.env`
+5. From the command line, run `python manage.py migrate`, then `python manage.py runserver`
+6. Hopefully the site is up and you can visit it at [localhost:8000](http://localhost:8000)
 
 ### Deployment
 This site is deployed on Heroku, which is nice because it is free, but not nice because it [won't store files long term](https://help.heroku.com/K1PPS2WM/why-are-my-file-uploads-missing-deleted). To get around this, we use s3 for file storage. This should be fine because s3 is cheap.
